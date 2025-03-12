@@ -1,0 +1,359 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &616767337
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 616767338}
+  - component: {fileID: 616767339}
+  m_Layer: 0
+  m_Name: Respawn_PlaneEnemys
+  m_TagString: Respawn
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &616767338
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616767337}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.0572, y: 17, z: 0}
+  m_LocalScale: {x: 20, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3075027512263022810}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &616767339
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616767337}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 3f60317d38523b845a9f41f7e7c1e2dc, type: 3}
+  m_Color: {r: 0, g: 0.8366535, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 9.18, y: 5.15}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &1782893826
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1782893827}
+  - component: {fileID: 1782893828}
+  m_Layer: 0
+  m_Name: Spawn_GroundEnemys
+  m_TagString: Respawn
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1782893827
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782893826}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 42, z: 0}
+  m_LocalScale: {x: 20, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3075027512263022810}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1782893828
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782893826}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 3f60317d38523b845a9f41f7e7c1e2dc, type: 3}
+  m_Color: {r: 0.7735849, g: 0.25590652, b: 0, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 9.18, y: 5.15}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!1 &3075027512263022813
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3075027512263022810}
+  - component: {fileID: 3075027512263022811}
+  - component: {fileID: 3075027511642324440}
+  - component: {fileID: 5292161855161657915}
+  m_Layer: 0
+  m_Name: GameEvents
+  m_TagString: Game_Events
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3075027512263022810
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3075027512263022813}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7.660331, y: 12.576002, z: -0.6221458}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 616767338}
+  - {fileID: 1782893827}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3075027512263022811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3075027512263022813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90e6ce458ef27c54f9145e9b5938d14a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: b7500ec6b7e9a3143b373b317ceef632, type: 2}
+  player_Sprites: {fileID: 0}
+  gameLevel: 0
+  checkpointsInScene: 2
+  enemysToSpawnCheckpoint: 0
+  gameStarted: 0
+  audioSettings: {fileID: 5292161855161657915}
+  mobileChecked: {fileID: 0}
+  timeToGameStarted: 4
+  background: {fileID: 0}
+  level_Islands: {fileID: 3075027511642324440}
+  bgSpeed: 2
+  playerPrefab: {fileID: 7910588849025899869, guid: 853b4266a81536d4fae2766cb7137c54, type: 3}
+  player: {fileID: 0}
+  joystick: {fileID: 0}
+  player_Behavior: {fileID: 0}
+  playerSprite: {fileID: 0}
+  playerSpawn: {fileID: 0}
+  playerAlive: 0
+  playerAnimator: {fileID: 0}
+  canvasAnimator: {fileID: 0}
+  timeToCallGameOver: 2
+  playerCanvas: {fileID: 0}
+  missionComplete: {fileID: 0}
+  animCanvasWarningTimer: 5.5
+  animTimeMissionComplete: 3
+  playerBulletGO: {fileID: 765250367048535891, guid: 95cad624272dceb4db4b14a6e6c39dbb, type: 3}
+  enemyBulletGO: {fileID: 143843814125706721, guid: e663a5b7d036b4545b73d861d8b52bd1, type: 3}
+  bulletHitGO: {fileID: 7074110660935105061, guid: d2c6da9e51a066549b7ba61758b7c0dc, type: 3}
+  bulletHitTime: 0.1
+  dropGO: {fileID: 8244602125751053512, guid: d8125919272b7f14982982e1fa3ff93e, type: 3}
+  upgradeSprite: {fileID: 21300000, guid: 59b0d60e0482e1e4eb8f3400cf1a7923, type: 3}
+  lifeSprite: {fileID: 21300000, guid: 97ba9fc67c83adb48b63c056a1fe0845, type: 3}
+  shieldSprite: {fileID: 21300000, guid: 02bc12b867f174c469ed269c67d864cf, type: 3}
+  dropUpgradeRate: 100
+  dropShieldRate: 10
+  dropLifeRate: 10
+  bossGO:
+  - {fileID: 6457764281098414521, guid: ba89836ffdb65c44f9c48490af1d54d6, type: 3}
+  - {fileID: 2142993944197555616, guid: 39c7b876585a5c3498ec31d0fd73c8ed, type: 3}
+  - {fileID: 545038519245095120, guid: e01f13905fb45434e9f558670213bae1, type: 3}
+  - {fileID: 27407740267729856, guid: cab8dfd2308b3754fb90b7a0a445c697, type: 3}
+  currentBossGO: {fileID: 0}
+  currentBossBehaviour: {fileID: 0}
+  bossWaypoints: {fileID: 0}
+  bossInScene: 0
+  bossAnimator: {fileID: 0}
+  bossSpawnPoint: {x: 0, y: 20, z: 0}
+  bossDeadPos: {x: 0, y: 0}
+  quantUpgradesToDrop: 0
+  upgradeDropsCount: 0
+  timeForDrop: 0
+  auxTimeForDrop: 0
+  bossDropUpgradePoints: 0
+  bossDropGOs: []
+  enemyPlaneGO: {fileID: 8868361215081882462, guid: fe39415f6f30b0348b721fe9db879e56, type: 3}
+  enemyGroundGO: {fileID: 5347984031794161008, guid: e20e598da3b62c3408f7021ba92c9a1e, type: 3}
+  respawPlaneEnemys: {fileID: 616767337}
+  spawGroundEnemys: {fileID: 1782893826}
+  spawnGroundEnemyChance: 15
+  maxGroundEnemysInIsland: 2
+  spawnIslandTime: 12
+  timerToRespawnEnemy: 8
+  enemysToDefeat: 20
+  enemysDefeated: 0
+  maxEnemysInScene: 5
+  enemysInScene: 0
+  planeEnemysLVL1:
+  - {fileID: 21300000, guid: 069df6ed50ae15248a3984af260210d4, type: 3}
+  - {fileID: 21300000, guid: 9753216334bda8846b16ffd0bdf5815a, type: 3}
+  - {fileID: 21300000, guid: 64f06fcb23e42024fa4b2cecdee0c695, type: 3}
+  - {fileID: 21300000, guid: e5b95738c15770148866aa4bcf04fed2, type: 3}
+  planeEnemysLVL2:
+  - {fileID: 21300000, guid: 54d61403217f626498110763a76f442e, type: 3}
+  - {fileID: 21300000, guid: 483391d172f6f7d41bf0e88fc584aa40, type: 3}
+  - {fileID: 21300000, guid: ec92c944815dd874aafdaa8c11460b7f, type: 3}
+  - {fileID: 21300000, guid: 1b5c024db96c2cd4ab9395f97b387c1e, type: 3}
+  planeEnemysLVL3:
+  - {fileID: 21300000, guid: 853c23d7c57004845a6f4125472f7dbb, type: 3}
+  - {fileID: 21300000, guid: 8f88ecb8f5a952a44b3a9fdb3b948d97, type: 3}
+  - {fileID: 21300000, guid: fdf8ff511d4487b4d93c1b32854598ee, type: 3}
+  - {fileID: 21300000, guid: dcc0a82aba760f543bd55c7bf6c92f91, type: 3}
+  currentPlaneEnemys: []
+  groundEnemysLVL1:
+  - {fileID: 21300000, guid: eb28544aa9e04654e94eb0930fa99ceb, type: 3}
+  - {fileID: 21300000, guid: 81661e74a383bd24c859fd7f27095e3e, type: 3}
+  groundEnemysLVL2:
+  - {fileID: 21300000, guid: d4d006f58866f82459ea4631e15e86d4, type: 3}
+  - {fileID: 21300000, guid: 608dfc30c1071dc499f3ed2d7f294183, type: 3}
+  currentGroundEnemys: []
+  mainCam: {fileID: 0}
+  camera_Behaviour: {fileID: 0}
+--- !u!114 &3075027511642324440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3075027512263022813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83cd428f72884d14da3b5270c0be9041, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  game_Events: {fileID: 3075027512263022811}
+  spawnIslandBool: 0
+  islandLVL1: {fileID: 4462175558214107849, guid: 524e93b63f4ee1d408b33441aaef2e64, type: 3}
+  islandLVL2: {fileID: 4462175558214107849, guid: 9a28c1bab7e764d45a92be48343e4dcd, type: 3}
+  islandLVL3: {fileID: 4462175558214107849, guid: ca4ca7e68d0fb9642b52a71da4f933c8, type: 3}
+  islandLVL4: {fileID: 4462175558214107849, guid: 5064b88d9b4f47248a28879668ff4d97, type: 3}
+  game_island: {fileID: 0}
+  islandsOfLevel: []
+  currentIsland: {fileID: 0}
+  currentIslandsOnLevel: []
+  spawnIslandTime: 0
+  spawnIslandTimeAux: 0
+  checkpointSetted: 0
+  grassCheckpointTile: {fileID: 11400000, guid: e2c71aa8730ac644693cdd23c2391018, type: 2}
+  desertCheckpointTile: {fileID: 11400000, guid: 4d9b36df44b45b74982b29f22d9c1bc6, type: 2}
+--- !u!114 &5292161855161657915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3075027512263022813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e61abdf7412ff84e815a880587b218c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  stageMusic:
+  - {fileID: 8300000, guid: 310b88f57735cca4689ce7e043cbcb0b, type: 3}
+  - {fileID: 8300000, guid: c1325b2c5244c784aa814172cbcc9bd9, type: 3}
+  - {fileID: 8300000, guid: 4ffac80444e8c00409c9815d6554378f, type: 3}
+  - {fileID: 8300000, guid: de71572b4ee67d746957d56a32e10de6, type: 3}
+  stageClear: {fileID: 8300000, guid: db06f4a9e3428604489c180cb26328a3, type: 3}
+  gameover: {fileID: 8300000, guid: 877bc557dc07b974e9e2845aea6ae91e, type: 3}
+  bossFight: {fileID: 8300000, guid: ca247a7b5f61e6540b04ab7ef3f4bb7d, type: 3}
+  boss4Fight: {fileID: 8300000, guid: 7af8c7df15559a94690cb3b143cbfba1, type: 3}

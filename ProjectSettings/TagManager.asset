@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Enemy
+  - Background
+  - Game_Events
+  - GroundEnemys
+  - Terrain
+  - BossTurret
+  - BossCannon
+  - BossWaypoints
+  - DialogueControl
+  - BombCollider
+  - Boss
+  - PlayerBomb
+  - B3Cannon
+  - Boss2SpawnWaves
+  - Boss4Spawn
+  - PlayerCanvas
+  - SO_DATA
+  - UpgradeCosts
+  - PlayerSprites
+  - MobileToggle
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Background
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Island
+    uniqueID: 2962714075
+    locked: 0

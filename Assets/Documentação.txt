@@ -1,0 +1,61 @@
+﻿Nome do Jogo:
+	-A Dauntless Adventure
+
+Gênero:
+	-Bullet Hell
+	-Shoot 'em up
+	-Top-down view
+
+Público Alvo:
+	-Todos os públicos
+	
+Objetivo geral:
+	-Passar de fases e destruir chefões.
+
+Objetivos específicos:
+	-Destruir todas as naves de chefões de cada fase
+
+Enredo e personagens:
+	-Enredo: Inimigos estão invadindo o territorio nacional e você deve defender sua nação.
+
+	-A camera tem posição fixa e o jogador se movimenta livremente pelo mapa, porem não pode sair do intorno da camera.
+
+	-O jogador pode iniciar o jogo escolhendo entre 4 aviões de sua preferencia.
+	-O Jogador tem a chance de pegar um especial temporario ao derrotar qualquer inimigo.
+	-O jogador pode melhorar atributos do avião coletando pontos de upgrade ao derrotar inimigos.
+		-Fuselagem: Ganha +1 de vida fixo a cada melhoria. 2 no total.
+		-Velociade de movimento: Ganha mais velocidade no movimento.
+		-Tiro:
+			-Melhoria de tiro: melhora a qualidade do tiro;
+			-Cadencia de tiro: demora mais para atirar;
+			-Mais balas: atira com mais balas;
+			-Duração de especiais: +1 segundo soltando especiais;
+	
+	-O mapa se movimenta para baixo com velocidade 'x', dando impressão que estamos se movimentando. 
+	-Inimigos terrestres são fixos no mapa, somente olham para o player e atira.
+	-Inimigos aereos somente andam pra frente e atiram, porem restoram sua posição enquanto não são mortos.
+	-Inimigos aereos pode melhorar de categoria dependendo de fase.
+		-Podem possuir mais vida ou dar tiros melhorados
+	
+	-Chefões so aparecem quando todos aviões da fase forem derrotados.
+	-Chefões só são derotados quando todo seu arsenal de tiro for destruídos.
+
+Personagem principal:	
+	-1 de 4 Aviões de sua escolha
+
+Inimigos:
+	-Inimigos aéreos: aviões com varias categorias
+	-Inimigos terrestres: tankes ou artilharia anti-aerea de varias categorias
+	-Chefões: naves grandiosas que possuem artilharia 
+
+Iteração do jogador:
+	-O jogo só acaba quando todos chefões forem derrotados
+
+Controles:
+	-Cima (w ou seta p/ cima)
+	-Baixo (s ou seta p/ baixo)
+	-Esquerda (a ou seta p/ esquerda)
+	-Direita (d ou seta p/ direita)
+	-Atira (espaço ou botão esquerdo do mouse)
+	-Solta especial (control esquerdo ou botão direito do mouse)
+	
