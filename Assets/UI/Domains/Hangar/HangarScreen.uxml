@@ -1,0 +1,94 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <engine:VisualElement name="root" style="flex-grow: 1; align-items: flex-start; justify-content: flex-start; background-image: url(&quot;project://database/Assets/Sprites/Sprites/Outros/hangar.png?fileID=2800000&amp;guid=3210d3c9a62d75f4db846d3e20f0c127&amp;type=3#hangar&quot;);">
+        <engine:VisualElement name="UpgradeMainContainer" style="width: 100%; height: 100%; display: flex;">
+            <engine:VisualElement name="Body" style="width: 100%; height: 100%; padding-top: 15px; padding-right: 30px; padding-bottom: 15px; padding-left: 30px; justify-content: space-around; align-items: center;">
+                <engine:VisualElement name="PlayerStatus" style="width: 100%; height: 350px; align-items: flex-start; justify-content: space-around; align-content: auto; -unity-text-align: middle-center; background-color: rgb(0, 0, 0); border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px;">
+                    <engine:VisualElement name="LevelContainer" style="width: 100%; flex-direction: row; align-items: center; align-content: auto; height: 150px; justify-content: space-between;">
+                        <engine:VisualElement name="PlayerLevel" style="width: 350px; height: 100%; flex-direction: row; align-items: center; align-content: auto; justify-content: center;">
+                            <engine:VisualElement name="PlaneImg" style="background-image: url(&quot;project://database/Assets/Sprites/Sprites/Player/Player_Blue_1.png?fileID=2800000&amp;guid=2cc4f497c5ee4f44ab0bdc2e76497950&amp;type=3#Player_Blue_1&quot;); width: 150px; height: 150px;" />
+                            <engine:Label text="Lvl: 9" name="PlayerLevel" style="-unity-font-style: bold; font-size: 50px; color: rgb(255, 255, 255);" />
+                        </engine:VisualElement>
+                        <engine:VisualElement name="UpgradePoints" style="width: 350px; height: 100%; flex-direction: row; align-items: center; align-content: auto; justify-content: center;">
+                            <engine:VisualElement name="PlaneImg" style="background-image: url(&quot;project://database/Assets/Sprites/Sprites/Upgrades/Upgrade_Capsule.png?fileID=2800000&amp;guid=59b0d60e0482e1e4eb8f3400cf1a7923&amp;type=3#Upgrade_Capsule&quot;); width: 150px; height: 150px; background-size: 70% 70%;" />
+                            <engine:Label text="999" name="UpgradeValue" style="-unity-font-style: bold; font-size: 50px; color: rgb(255, 255, 255);" />
+                        </engine:VisualElement>
+                        <engine:VisualElement name="LifePoints" style="width: 350px; height: 100%; flex-direction: row; align-items: center; align-content: auto; justify-content: center;">
+                            <engine:VisualElement name="PlaneImg" style="background-image: url(&quot;project://database/Assets/Sprites/Sprites/Upgrades/Life_Capsule.png?fileID=2800000&amp;guid=97ba9fc67c83adb48b63c056a1fe0845&amp;type=3#Life_Capsule&quot;); width: 150px; height: 150px; background-size: 70% 70%;" />
+                            <engine:Label text="999" name="LifeValue" style="-unity-font-style: bold; font-size: 50px; color: rgb(255, 255, 255);" />
+                        </engine:VisualElement>
+                    </engine:VisualElement>
+                    <engine:VisualElement name="StatusContainer" style="width: 100%; flex-direction: row; align-items: center; align-content: auto; height: 150px; justify-content: space-between;">
+                        <engine:VisualElement name="DamageContainer" style="width: 300px; height: 100%; flex-direction: column; align-items: center; align-content: auto; justify-content: flex-start;">
+                            <engine:Label text="Damage&#10;" name="Damage" style="-unity-font-style: bold; font-size: 45px; color: rgb(255, 255, 255);" />
+                            <engine:Label text="9,9" name="DamageValue" style="-unity-font-style: bold; font-size: 50px; color: rgb(255, 255, 255);" />
+                        </engine:VisualElement>
+                        <engine:VisualElement name="FirerateContainer" style="width: 300px; height: 100%; flex-direction: column; align-items: center; align-content: auto; justify-content: flex-start;">
+                            <engine:Label text="Firerate" name="Firerate" style="-unity-font-style: bold; font-size: 45px; color: rgb(255, 255, 255);" />
+                            <engine:Label text="99" name="FirerateValue" style="-unity-font-style: bold; font-size: 50px; color: rgb(255, 255, 255);" />
+                        </engine:VisualElement>
+                        <engine:VisualElement name="VelocityContainer" style="width: 300px; height: 100%; flex-direction: column; align-items: center; align-content: auto; justify-content: flex-start;">
+                            <engine:Label text="Velocity" name="Velocity" emoji-fallback-support="true" style="-unity-font-style: bold; font-size: 45px; color: rgb(255, 255, 255);" />
+                            <engine:Label text="99" name="VelocityValue" style="-unity-font-style: bold; font-size: 50px; color: rgb(255, 255, 255);" />
+                        </engine:VisualElement>
+                        <engine:VisualElement name="BombContainer" style="width: 300px; height: 100%; flex-direction: column; align-items: center; align-content: auto; justify-content: flex-start;">
+                            <engine:Label text="Bomb area" name="Bomb" emoji-fallback-support="true" style="-unity-font-style: bold; font-size: 45px; color: rgb(255, 255, 255);" />
+                            <engine:Label text="99" name="BombValue" style="-unity-font-style: bold; font-size: 50px; color: rgb(255, 255, 255);" />
+                        </engine:VisualElement>
+                    </engine:VisualElement>
+                </engine:VisualElement>
+                <engine:VisualElement name="PlayerUpgradeShopContainer" style="width: 100%; height: 1000px; align-items: center; justify-content: space-around;">
+                    <engine:VisualElement name="Container1" style="width: 100%; height: 100%; flex-direction: row; justify-content: space-between; align-items: center; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px;">
+                        <engine:Button name="NextPlaneUpgradeButton" style="width: 450px; height: 100%; padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; background-color: rgb(0, 0, 0); border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; justify-content: space-around;">
+                            <engine:Label text="Next Plane" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; font-size: 45px; -unity-font-style: bold; color: rgb(255, 255, 255);" />
+                            <engine:VisualElement style="width: 100%; height: 150px; align-items: center; justify-content: space-around; flex-direction: row; align-content: auto; padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px;">
+                                <engine:VisualElement name="NextPlaneImg" style="width: 100px; height: 100px; background-image: url(&quot;project://database/Assets/Sprites/Sprites/Enemys/Enemy_Plane_3/Enemy_Plane_1.3.png?fileID=2800000&amp;guid=853c23d7c57004845a6f4125472f7dbb&amp;type=3#Enemy_Plane_1.3&quot;);" />
+                                <engine:VisualElement name="UpgradeImg" style="background-image: url(&quot;project://database/Assets/Sprites/Sprites/Upgrades/Upgrade_Capsule.png?fileID=2800000&amp;guid=59b0d60e0482e1e4eb8f3400cf1a7923&amp;type=3#Upgrade_Capsule&quot;); width: 100px; height: 100px; background-size: 70% 70%;" />
+                                <engine:Label text="999" name="NextPlaneValue" style="-unity-font-style: bold; color: rgb(255, 255, 255); font-size: 45px;" />
+                            </engine:VisualElement>
+                            <engine:VisualElement style="align-items: center; justify-content: center; width: 100%;">
+                                <engine:Label text="+1 level" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-font-style: bold; font-size: 45px; color: rgb(255, 255, 255);" />
+                                <engine:Label text="+1 max life" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-font-style: bold; font-size: 45px; color: rgb(255, 255, 255);" />
+                                <engine:Label text="+1 dmg" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-font-style: bold; font-size: 45px; color: rgb(255, 255, 255);" />
+                            </engine:VisualElement>
+                        </engine:Button>
+                        <engine:Button name="BombUpgradeButton" style="width: 450px; height: 100%; padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; background-color: rgb(0, 0, 0); border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; justify-content: space-around; align-items: center;">
+                            <engine:Label text="Bomb Upgrade" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; font-size: 45px; -unity-font-style: bold; color: rgb(255, 255, 255); width: 250px; white-space: normal;" />
+                            <engine:VisualElement style="width: 100%; height: 150px; align-items: center; justify-content: space-around; flex-direction: row; align-content: auto; padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px;">
+                                <engine:VisualElement name="UpgradeImg" style="background-image: url(&quot;project://database/Assets/Sprites/Sprites/Upgrades/Upgrade_Capsule.png?fileID=2800000&amp;guid=59b0d60e0482e1e4eb8f3400cf1a7923&amp;type=3#Upgrade_Capsule&quot;); width: 100px; height: 100px; background-size: 70% 70%;" />
+                                <engine:Label text="999" name="BombValue" style="-unity-font-style: bold; color: rgb(255, 255, 255); font-size: 45px;" />
+                            </engine:VisualElement>
+                            <engine:VisualElement style="align-items: center; justify-content: center; width: 100%;">
+                                <engine:Label text="+ .75 bomb area" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-font-style: bold; font-size: 45px; color: rgb(255, 255, 255);" />
+                            </engine:VisualElement>
+                        </engine:Button>
+                    </engine:VisualElement>
+                    <engine:VisualElement name="Container2" style="width: 100%; height: 100%; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; flex-direction: row; justify-content: space-between;">
+                        <engine:Button name="SpeedUpgradeButton" style="width: 450px; height: 100%; padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; background-color: rgb(0, 0, 0); border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; justify-content: space-around; align-items: center;">
+                            <engine:Label text="Speed Upgrade" parse-escape-sequences="false" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; font-size: 45px; -unity-font-style: bold; color: rgb(255, 255, 255); white-space: normal; width: 350px;" />
+                            <engine:VisualElement style="width: 100%; height: 150px; align-items: center; justify-content: space-around; flex-direction: row; align-content: auto; padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px;">
+                                <engine:VisualElement name="UpgradeImg" style="background-image: url(&quot;project://database/Assets/Sprites/Sprites/Upgrades/Upgrade_Capsule.png?fileID=2800000&amp;guid=59b0d60e0482e1e4eb8f3400cf1a7923&amp;type=3#Upgrade_Capsule&quot;); width: 100px; height: 100px; background-size: 70% 70%;" />
+                                <engine:Label text="999" name="SpeedValue" style="-unity-font-style: bold; color: rgb(255, 255, 255); font-size: 45px;" />
+                            </engine:VisualElement>
+                            <engine:VisualElement style="align-items: center; justify-content: center; width: 100%;">
+                                <engine:Label text="+2 Speed&#10;" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-font-style: bold; font-size: 45px; color: rgb(255, 255, 255);" />
+                            </engine:VisualElement>
+                        </engine:Button>
+                        <engine:Button name="FireRateButton" style="width: 450px; height: 100%; padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; background-color: rgb(0, 0, 0); border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; justify-content: space-around; align-items: center;">
+                            <engine:Label text="Fire Rate Upgrade" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; font-size: 45px; -unity-font-style: bold; color: rgb(255, 255, 255); white-space: normal;" />
+                            <engine:VisualElement style="width: 100%; height: 150px; align-items: center; justify-content: space-around; flex-direction: row; align-content: auto; padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px;">
+                                <engine:VisualElement name="UpgradeImg" style="background-image: url(&quot;project://database/Assets/Sprites/Sprites/Upgrades/Upgrade_Capsule.png?fileID=2800000&amp;guid=59b0d60e0482e1e4eb8f3400cf1a7923&amp;type=3#Upgrade_Capsule&quot;); width: 100px; height: 100px; background-size: 70% 70%;" />
+                                <engine:Label text="999" name="FireRateValue" style="-unity-font-style: bold; color: rgb(255, 255, 255); font-size: 45px;" />
+                            </engine:VisualElement>
+                            <engine:VisualElement style="align-items: center; justify-content: center; width: 100%;">
+                                <engine:Label text="+ .1 Firerate" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-font-style: bold; font-size: 45px; color: rgb(255, 255, 255);" />
+                            </engine:VisualElement>
+                        </engine:Button>
+                    </engine:VisualElement>
+                </engine:VisualElement>
+            </engine:VisualElement>
+            <engine:VisualElement name="PlayButtonContainer" style="width: 100%; height: 300px; align-items: center; align-content: auto;">
+                <engine:Button text="Play" name="PlayButton" style="width: 450px; height: 100px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-font-style: bold; font-size: 50px; color: rgb(255, 255, 255); background-color: rgb(255, 0, 0); border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px;" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>

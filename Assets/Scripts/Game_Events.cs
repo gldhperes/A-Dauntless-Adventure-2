@@ -5,6 +5,7 @@ using System;
 using Random = UnityEngine.Random;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UIElements;
 
 public class Game_Events : MonoBehaviour
 {   
@@ -31,8 +32,7 @@ public class Game_Events : MonoBehaviour
     [Header("Player Settings")]
     [SerializeField] private GameObject playerPrefab;
     public GameObject player;
-
-    // public FixedJoystick joystick;
+    
     public Player_Behavior player_Behavior;
     public Sprite playerSprite;
     [SerializeField] private Transform playerSpawn;
@@ -43,13 +43,17 @@ public class Game_Events : MonoBehaviour
 
     [Tooltip("Quando player morre, espera-se um tempo para a chamada da cena de gameover")]
     [SerializeField] private float timeToCallGameOver;
-    
 
-    [Header("PlayerCanvas Settings")]
-    public Canvas playerCanvas;
-    public GameObject missionComplete;
+
+    [Header("Player HUD")]
+    // public Canvas playerCanvas;
+    // public GameObject missionComplete;
     public float animCanvasWarningTimer;
     public float animTimeMissionComplete;
+    [SerializeField] private UIDocument uiDocument;
+    public Action<int> OnPlayerLifeChanged;
+    public Action<int> OnPlayerUpgradeChanged;
+    
 
     [Header("Bullet Settings")]
     public GameObject playerBulletGO;
@@ -99,6 +103,10 @@ public class Game_Events : MonoBehaviour
     private float timer;
     public int enemysToDefeat;
     public int enemysDefeated;
+    public float progressBar;
+    public event Action<float> OnEnemyDefeated;
+    
+    
     public int maxEnemysInScene;
     public int enemysInScene = 0;
     public Sprite[] planeEnemysLVL1;
@@ -114,12 +122,7 @@ public class Game_Events : MonoBehaviour
     public Camera mainCam;
     [SerializeField]
     private Camera_Behaviour camera_Behaviour;
-
-    // void Awake(){
-    //     player = Instantiate(playerPrefab, playerSpawn.transform.position, Quaternion.identity);
-    //     player_Behavior = player.GetComponent<Player_Behavior>();
-    // }
-
+    
     void Start(){
         data = GameObject.Find("SO_DATA").GetComponent<SO_Data>();
         player_Sprites = GameObject.Find("Player Sprites").GetComponent<Player_Sprites>();
@@ -129,17 +132,25 @@ public class Game_Events : MonoBehaviour
         spawnIslandTime = spawnIslandTime - (.5f * gameLevel);
 
         // Player
-        // player = Instantiate(playerPrefab, playerSpawn.transform.position, Quaternion.identity);
-        // player_Behavior = player.GetComponent<Player_Behavior>();
+        // INITIATE PLAYER CONFIGURATIONS
         player = Instantiate(playerPrefab, playerSpawn.transform.position, Quaternion.identity);
         player_Behavior = player.GetComponent<Player_Behavior>();
         player_Behavior.StartPlayer();
         player_Behavior.StartPlayerStatus();
-
-        // playerCanvas.GetComponent<Player_Canvas>().setPlayerBehaviour(player_Behavior);
+        
         playerAnimator = player.GetComponent<Animator>();
         playerAlive = true;
-
+        
+        // UI
+        // INITIATE UI ELEMENTS
+        FaseScreen faseScreen = uiDocument.gameObject.GetComponent<FaseScreen>();
+        faseScreen.InitScreen(data, player_Behavior);
+        
+        // LISTENERS
+        OnPlayerLifeChanged += (life) => faseScreen.UpdatePlayerLife(life); 
+        OnPlayerUpgradeChanged += (upgrade) => faseScreen.UpdateUpgradePoints(upgrade);
+        OnEnemyDefeated += (progress) => faseScreen.UpdateProgressBar(progress);
+        
         // Camera
         mainCam = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         camera_Behaviour = GameObject.FindWithTag("MainCamera").GetComponent<Camera_Behaviour>();
@@ -147,7 +158,7 @@ public class Game_Events : MonoBehaviour
         // Background
         background = GameObject.FindWithTag("Background"); 
 
-        canvasAnimator = playerCanvas.GetComponent<Animator>();
+        // canvasAnimator = playerCanvas.GetComponent<Animator>();
 
         level_Islands.resetSpawnIslandTimer();
         level_Islands.setGameLevelIsland();
@@ -200,13 +211,13 @@ public class Game_Events : MonoBehaviour
         playerAnimator.Play("playerTakeOff");
         gameStarted = false;
 
-        playerCanvas.GetComponent<Player_Canvas>().setFaseText( getGameLevel().ToString() ); 
-        playerCanvas.GetComponent<Player_Canvas>().decolandoPanel.SetActive(!gameStarted);
+        // playerCanvas.GetComponent<Player_Canvas>().setFaseText( getGameLevel().ToString() ); 
+        // playerCanvas.GetComponent<Player_Canvas>().decolandoPanel.SetActive(!gameStarted);
         player_Behavior.setCanMove(gameStarted);
         player_Behavior.setCanShot(gameStarted);
         yield return new WaitForSeconds(timeToGameStarted);
         gameStarted = true;
-        playerCanvas.GetComponent<Player_Canvas>().decolandoPanel.SetActive(!gameStarted);
+        // playerCanvas.GetComponent<Player_Canvas>().decolandoPanel.SetActive(!gameStarted);
         player_Behavior.setCanMove(gameStarted);
         player_Behavior.setCanShot(gameStarted);
     }
@@ -241,14 +252,14 @@ public class Game_Events : MonoBehaviour
         timeForDrop = currentBossBehaviour.getTimeForDrop();
         auxTimeForDrop = timeForDrop;
 
-        missionComplete.SetActive(true);
+        // missionComplete.SetActive(true);
         StartCoroutine(MissionComplete());
     }
 
     private IEnumerator MissionComplete(){
         audioSettings.setStageClear();
         yield return new WaitForSeconds(animTimeMissionComplete);
-        missionComplete.SetActive(false);
+        // missionComplete.SetActive(false);
         bossDropUpgradePoints = true;
 
 
@@ -305,7 +316,7 @@ public class Game_Events : MonoBehaviour
 
     public void bossDefeated(){
         // Seta o upgrade points que o player ganhou
-        data.upgradePoints = int.Parse(playerCanvas.GetComponent<Player_Canvas>().upgradeText.text);
+        // data.upgradePoints = int.Parse(playerCanvas.GetComponent<Player_Canvas>().upgradeText.text);
 
         if(gameLevel >= 4){
             GameLootLoading.LoadScene("Creditos");
@@ -417,6 +428,9 @@ public class Game_Events : MonoBehaviour
     public void enemyCountdown(){
         enemysInScene -= 1;
         enemysDefeated += 1;
+
+        progressBar = (float)enemysDefeated / (float)enemysToDefeat;
+        OnEnemyDefeated?.Invoke(progressBar);
     }
 
     public void resetEnemysDefeated(){
@@ -437,7 +451,7 @@ public class Game_Events : MonoBehaviour
     private IEnumerator CallGameOver(){
         yield return new WaitForSeconds(timeToCallGameOver);
         audioSettings.setGameoverMusic();
-        player_Behavior.player_Canvas.gameOver();
+        // player_Behavior.player_Canvas.gameOver();
     }
 
     // public FixedJoystick getJoystick()

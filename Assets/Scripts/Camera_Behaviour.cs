@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Camera_Behaviour : MonoBehaviour
 {   
+    [Header("Auto Config")]
     [SerializeField]
     private Camera mainCam;
     [SerializeField]
@@ -14,10 +15,13 @@ public class Camera_Behaviour : MonoBehaviour
     private float rightBound;
     [SerializeField]
     private float leftBound;
+    
+    [Header("Manual Config")]
     [SerializeField]
     private float sideBoundOffset;
     [SerializeField]
     private float upDownBoundOffset;
+   
 
     void Awake(){
         setCameraBounds();
@@ -25,7 +29,7 @@ public class Camera_Behaviour : MonoBehaviour
 
     private void setCameraBounds(){
         mainCam = gameObject.GetComponent<Camera>();
-        upBound = (mainCam.transform.position.y + mainCam.orthographicSize) - upDownBoundOffset ;
+        upBound = (mainCam.transform.position.y + mainCam.orthographicSize) - upBound ;
         downBound = (mainCam.transform.position.y - mainCam.orthographicSize) + upDownBoundOffset;      
         rightBound = (mainCam.transform.position.x + mainCam.orthographicSize) - sideBoundOffset;
         leftBound = (mainCam.transform.position.x - mainCam.orthographicSize) + sideBoundOffset;

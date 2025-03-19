@@ -24,7 +24,7 @@ public class GameLootLoading : MonoBehaviour
     public static void LoadScene(string sceneName){
         PlayerPrefs.SetString("SCENE_TO_LOAD", sceneName);
         PlayerPrefs.Save();
-        SceneManager.LoadScene("LoadingScene");
+        SceneManager.LoadScene(Scenes_To_Call.LoadingScene);
     }
 
     IEnumerator LoadSceneAsync(string sceneName){
@@ -42,5 +42,15 @@ public class GameLootLoading : MonoBehaviour
 
         // System.GC.Collect();
         // asyncLoad.allowSceneActivation = true;
+    }
+    
+    public static class Scenes_To_Call
+    {
+        public const string Creditos = "Creditos";
+        public const string Fase = "Fase";
+        public const string Hangar = "Hangar";
+        public const string LoadingScene = "LoadingScene";
+        // public const string Gameover = "GameOver";
+        public const string MainMenu = "MainMenu";
     }
 }
