@@ -15,12 +15,12 @@ public class SO_Data : MonoBehaviour
         set { myGameLevel = value; }
     }
 
-    [SerializeField]
-    private int myInitGameLevel;
-    public int initGameLevel
-    {
-        get { return this.myInitGameLevel; }
-    }
+    // [SerializeField]
+    // private int myInitGameLevel;
+    // public int initGameLevel
+    // {
+    //     get { return this.myInitGameLevel; }
+    // }
 
     [Header("Hangar Arrivals")]
     [SerializeField]
@@ -31,12 +31,12 @@ public class SO_Data : MonoBehaviour
         set { myHangarArrivals = value; }
     }
 
-    [SerializeField]
-    private int myInitHangarArrivals;
-    public int initHangarArrivals
-    {
-        get { return this.myInitHangarArrivals; }
-    }
+    // [SerializeField]
+    // private int myInitHangarArrivals;
+    // public int initHangarArrivals
+    // {
+    //     get { return this.myInitHangarArrivals; }
+    // }
 
     [SerializeField]
     private bool myPlayerVisitedHangar;
@@ -45,13 +45,13 @@ public class SO_Data : MonoBehaviour
         get { return this.myPlayerVisitedHangar; }
         set { myPlayerVisitedHangar = value; }
     }
-
-    [SerializeField]
-    private bool myInitPlayerVisitedHangar;
-    public bool initPlayerVisitedHangar
-    {
-        get { return this.myInitPlayerVisitedHangar; }
-    }
+    
+    // [SerializeField]
+    // private bool myInitPlayerVisitedHangar;
+    // public bool initPlayerVisitedHangar
+    // {
+    //     get { return this.myInitPlayerVisitedHangar; }
+    // }
 
 
     [Header("Player Level")]
@@ -63,12 +63,12 @@ public class SO_Data : MonoBehaviour
         set { myPlayerLevel = value; }
     }
 
-    [SerializeField]
-    private int myInitPlayerLevel;
-    public int initPlayerLevel
-    {
-        get { return this.myInitPlayerLevel; }
-    }
+    // [SerializeField]
+    // private int myInitPlayerLevel;
+    // public int initPlayerLevel
+    // {
+    //     get { return this.myInitPlayerLevel; }
+    // }
     
 
     [Header("Upgrade")]
@@ -80,13 +80,13 @@ public class SO_Data : MonoBehaviour
         set { myUpgradePoints = value; }
     }
 
-    [SerializeField]
-    private int myInitUpgradePoints;
-    public int initUpgradePoints
-    {
-        get { return this.myInitUpgradePoints; }
-       
-    }
+    // [SerializeField]
+    // private int myInitUpgradePoints;
+    // public int initUpgradePoints
+    // {
+    //     get { return this.myInitUpgradePoints; }
+    //    
+    // }
     
 
     [Header("Life")]
@@ -98,12 +98,12 @@ public class SO_Data : MonoBehaviour
         set { myPlayerLife = value; }
     }
 
-    [SerializeField]
-    private int myInitPlayerLife;
-    public int initPlayerLife
-    {
-        get { return this.myInitPlayerLife; }
-    }
+    // [SerializeField]
+    // private int myInitPlayerLife;
+    // public int initPlayerLife
+    // {
+    //     get { return this.myInitPlayerLife; }
+    // }
 
 
     [Header("Speed")]
@@ -115,12 +115,12 @@ public class SO_Data : MonoBehaviour
         set { myPlayerSpeed = value; }
     }
 
-    [SerializeField]
-    private float myInitPlayerSpeed;
-    public float initPlayerSpeed
-    {
-        get { return this.myInitPlayerSpeed; }
-    }
+    // [SerializeField]
+    // private float myInitPlayerSpeed;
+    // public float initPlayerSpeed
+    // {
+    //     get { return this.myInitPlayerSpeed; }
+    // }
     
 
     [Header("Damage")]
@@ -132,12 +132,12 @@ public class SO_Data : MonoBehaviour
         set { myPlayerDamage = value; }
     }
 
-    [SerializeField]
-    private int myInitPlayerDamage;
-    public int initPlayerDamage
-    {
-        get { return this.myInitPlayerDamage; }
-    }
+    // [SerializeField]
+    // private int myInitPlayerDamage;
+    // public int initPlayerDamage
+    // {
+    //     get { return this.myInitPlayerDamage; }
+    // }
 
 
     [Header("Firerate")]
@@ -149,12 +149,12 @@ public class SO_Data : MonoBehaviour
         set { myPlayerFireRate = value; }
     }
 
-    [SerializeField]
-    private float myInitPlayerFireRate;
-    public float initPlayerFireRate
-    {
-        get { return this.myInitPlayerFireRate; }
-    }
+    // [SerializeField]
+    // private float myInitPlayerFireRate;
+    // public float initPlayerFireRate
+    // {
+    //     get { return this.myInitPlayerFireRate; }
+    // }
 
 
     [Header("Bomb")]
@@ -166,12 +166,12 @@ public class SO_Data : MonoBehaviour
         set { myPlayerBombArea = value; }
     }
 
-    [SerializeField]
-    private float myPlayerInitBombArea;
-    public float playerInitBombArea
-    {
-        get { return this.myPlayerInitBombArea; }
-    }
+    // [SerializeField]
+    // private float myPlayerInitBombArea;
+    // public float playerInitBombArea
+    // {
+    //     get { return this.myPlayerInitBombArea; }
+    // }
 
     [SerializeField]
     private bool myPlayerBombEnable;

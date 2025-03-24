@@ -56,60 +56,60 @@ public class Buttons_Behaviour : MonoBehaviour
     }
 
     public void startNewGame(string scene){   
-        resetPlayerData(); 
-        resetPlayerSprites();
-        resetUpgradeCosts();
+        // resetPlayerData(); 
+        // resetPlayerSprites();
+        // resetUpgradeCosts();
         GameLootLoading.LoadScene(scene);
     }
 
-    private void resetPlayerData(){
-        data.gameLevel = data.initGameLevel;
-
-        data.hangarArrivals = data.initHangarArrivals;
-
-        data.playerVisitedHangar = data.initPlayerVisitedHangar;
-
-        data.playerLevel = data.initPlayerLevel;
-
-        data.upgradePoints = data.initUpgradePoints;
-
-        data.playerLife = data.initPlayerLife;
-
-        data.playerSpeed = data.initPlayerSpeed;
-
-        data.playerDamage = data.initPlayerDamage;
-
-        data.playerFireRate = data.initPlayerFireRate;
-
-        data.playerBombArea = data.playerInitBombArea;
-
-        data.playerBombEnable = data.initPlayerBombEnable;
-
-        // Checa se foram mesmo resetados
-        if(data.gameLevel != data.initGameLevel) resetPlayerData();
-
-        if(data.hangarArrivals != data.initHangarArrivals) resetPlayerData();
-
-        if(data.playerVisitedHangar != data.initPlayerVisitedHangar) resetPlayerData();
-
-        if(data.playerLevel != data.initPlayerLevel) resetPlayerData();
-
-        if(data.upgradePoints != data.initUpgradePoints) resetPlayerData();
-
-        if(data.playerLife != data.initPlayerLife) resetPlayerData();
-
-        if( data.playerSpeed != data.initPlayerSpeed) resetPlayerData();
-
-        if(data.playerDamage != data.initPlayerDamage) resetPlayerData();
-
-        if(data.playerFireRate != data.initPlayerFireRate) resetPlayerData();
-
-        if(data.playerBombArea != data.playerInitBombArea) resetPlayerData();
-
-        if(data.playerBombEnable != data.initPlayerBombEnable) resetPlayerData();
-
-
-    }
+    // private void resetPlayerData(){
+    //     data.gameLevel = data.initGameLevel;
+    //
+    //     data.hangarArrivals = data.initHangarArrivals;
+    //
+    //     data.playerVisitedHangar = data.initPlayerVisitedHangar;
+    //
+    //     data.playerLevel = data.initPlayerLevel;
+    //
+    //     data.upgradePoints = data.initUpgradePoints;
+    //
+    //     data.playerLife = data.initPlayerLife;
+    //
+    //     data.playerSpeed = data.initPlayerSpeed;
+    //
+    //     data.playerDamage = data.initPlayerDamage;
+    //
+    //     data.playerFireRate = data.initPlayerFireRate;
+    //
+    //     data.playerBombArea = data.playerInitBombArea;
+    //
+    //     data.playerBombEnable = data.initPlayerBombEnable;
+    //
+    //     // Checa se foram mesmo resetados
+    //     if(data.gameLevel != data.initGameLevel) resetPlayerData();
+    //
+    //     if(data.hangarArrivals != data.initHangarArrivals) resetPlayerData();
+    //
+    //     if(data.playerVisitedHangar != data.initPlayerVisitedHangar) resetPlayerData();
+    //
+    //     if(data.playerLevel != data.initPlayerLevel) resetPlayerData();
+    //
+    //     if(data.upgradePoints != data.initUpgradePoints) resetPlayerData();
+    //
+    //     if(data.playerLife != data.initPlayerLife) resetPlayerData();
+    //
+    //     if( data.playerSpeed != data.initPlayerSpeed) resetPlayerData();
+    //
+    //     if(data.playerDamage != data.initPlayerDamage) resetPlayerData();
+    //
+    //     if(data.playerFireRate != data.initPlayerFireRate) resetPlayerData();
+    //
+    //     if(data.playerBombArea != data.playerInitBombArea) resetPlayerData();
+    //
+    //     if(data.playerBombEnable != data.initPlayerBombEnable) resetPlayerData();
+    //
+    //
+    // }
 
     private void resetPlayerSprites(){
         player_Sprites.playerPlanes = null;

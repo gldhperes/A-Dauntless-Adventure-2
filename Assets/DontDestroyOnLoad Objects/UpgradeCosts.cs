@@ -7,24 +7,24 @@ public class UpgradeCosts : MonoBehaviour
 {   
     public int maxItensSold;
 
-    [Header("Fuselagem")]
+    [Header("Plane")]
     public int fuselagemCost;
     public int fuselagemSold;
     public int fuselagemNextCost;
 
 
-    [Header("Bomb Raio")]
+    [Header("Bomb ")]
     public int raioCost;
     public float raioUpgrade;
     public int raioSold;
     public int raioInitialCost;
     public int raioNextCost;
 
-    [Header("Velocidade")]
-    public int velocidadeCost;
-    public float velocidadeUpgrade;
-    public int velocidadeSold;
-    public int velocidadeNextCost;
+    [Header("Speed")]
+    public int speedCost;
+    public float speedUpgrade;
+    public int speedSold;
+    public int speedNextCost;
 
     [Header("Fire rate")]
     public int firerateCost;

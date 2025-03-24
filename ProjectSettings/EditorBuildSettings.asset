@@ -6,16 +6,16 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
+    path: Assets/UI/Domains/MainMenu/MainMenu.unity
     guid: 8036affc03985be4880f564e9ab31dda
   - enabled: 1
-    path: Assets/Scenes/LoadingScene.unity
+    path: Assets/UI/Domains/Loading/LoadingScene.unity
     guid: 8897eb3cd4fba8d4a8f073df3790e1bc
   - enabled: 1
-    path: Assets/Scenes/Hangar.unity
+    path: Assets/UI/Domains/Hangar/Hangar.unity
     guid: 2f13aa759e5973a4ab82cdce8f9a1c80
   - enabled: 1
-    path: Assets/Scenes/Fase.unity
+    path: Assets/UI/Domains/Fase/Fase.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
     path: Assets/Scenes/Creditos.unity

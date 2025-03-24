@@ -610,6 +610,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b66a0891221ed834fabe79fa56774fe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiDocument: {fileID: 0}
+  player_Sprites: {fileID: 0}
 --- !u!1 &131038075
 GameObject:
   m_ObjectHideFlags: 0
@@ -5603,6 +5605,34 @@ PrefabInstance:
     - target: {fileID: 6443333629593337123, guid: 813fa7405f57c5b4cb484be3e4931097, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7717382249343444447, guid: 813fa7405f57c5b4cb484be3e4931097, type: 3}
+      propertyPath: raioCost
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7717382249343444447, guid: 813fa7405f57c5b4cb484be3e4931097, type: 3}
+      propertyPath: speedCost
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7717382249343444447, guid: 813fa7405f57c5b4cb484be3e4931097, type: 3}
+      propertyPath: firerateCost
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7717382249343444447, guid: 813fa7405f57c5b4cb484be3e4931097, type: 3}
+      propertyPath: speedUpgrade
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7717382249343444447, guid: 813fa7405f57c5b4cb484be3e4931097, type: 3}
+      propertyPath: fuselagemCost
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7717382249343444447, guid: 813fa7405f57c5b4cb484be3e4931097, type: 3}
+      propertyPath: speedNextCost
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7717382249343444447, guid: 813fa7405f57c5b4cb484be3e4931097, type: 3}
+      propertyPath: firerateUpgrade
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14501,6 +14531,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5130964248282165893, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
+      propertyPath: myGameLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5130964248282165893, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
+      propertyPath: myPlayerLife
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -5130964248282165893, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
+      propertyPath: myPlayerLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5130964248282165893, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
+      propertyPath: myPlayerSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -5130964248282165893, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
+      propertyPath: myPlayerDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5130964248282165893, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
+      propertyPath: myUpgradePoints
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -5130964248282165893, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
+      propertyPath: myPlayerBombArea
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5130964248282165893, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
+      propertyPath: myPlayerFireRate
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 6443333629593337122, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
       propertyPath: m_Name
       value: SO_DATA

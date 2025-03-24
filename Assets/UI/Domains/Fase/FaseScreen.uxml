@@ -28,5 +28,11 @@
                 <engine:VisualElement name="BossImage" style="width: 100%; height: 100%; position: absolute; background-image: url(&quot;project://database/Assets/Sprites/Sprites/Boss/Boss%202.png?fileID=2800000&amp;guid=e224f92de6bace341af52caf9208484b&amp;type=3#Boss 2&quot;);" />
             </engine:VisualElement>
         </engine:VisualElement>
+        <engine:VisualElement name="TakingOffContainer" style="flex-grow: 0; width: 100%; position: absolute; height: 376px; bottom: 1000px; align-items: center; justify-content: center; display: none; opacity: 1;">
+            <engine:Label text="STAGE" name="StageLabel" style="align-items: center; justify-content: center; width: auto; height: auto; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: middle-center; -unity-font-style: bold; font-size: 100px; color: rgb(255, 255, 0); -unity-text-outline-width: 5px; -unity-text-outline-color: rgb(0, 0, 0);" />
+        </engine:VisualElement>
+        <engine:VisualElement name="WarningContainer" style="flex-grow: 0; width: 100%; position: absolute; height: 376px; bottom: 1000px; align-items: center; justify-content: center; display: none; transition-property: display; transition-duration: 100ms;">
+            <engine:Label text="WARNING" name="WarningLabel" style="align-items: center; justify-content: center; width: auto; height: auto; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: middle-center; -unity-font-style: bold; font-size: 100px; color: rgb(255, 255, 0); -unity-text-outline-width: 5px; -unity-text-outline-color: rgb(0, 0, 0);" />
+        </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>
