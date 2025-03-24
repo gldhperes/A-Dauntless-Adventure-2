@@ -19,8 +19,7 @@ public class Game_Events : MonoBehaviour
     public AudioSettings audioSettings;
     // [SerializeField] private MobileChecked mobileChecked;
 
-    [Tooltip ("Variavel de tempo para mudar o estado de gameStarted. Faz referencia ao tempo de animação do player ao iniciar a fase (animação de decolar do player)")]
-    public float timeToGameStarted;
+    
     
 
     [Header("Background Settings")]
@@ -50,7 +49,10 @@ public class Game_Events : MonoBehaviour
     // public GameObject missionComplete;
     public float animCanvasWarningTimer;
     public float animTimeMissionComplete;
+    [Tooltip ("Variavel de tempo para mudar o estado de gameStarted. Faz referencia ao tempo de animação do player ao iniciar a fase (animação de decolar do player)")]
+    public float animTakinoffTimer;
     [SerializeField] private UIDocument uiDocument;
+    private FaseScreen faseScreen;
     public Action<int> OnPlayerLifeChanged;
     public Action<int> OnPlayerUpgradeChanged;
     
@@ -143,8 +145,10 @@ public class Game_Events : MonoBehaviour
         
         // UI
         // INITIATE UI ELEMENTS
-        FaseScreen faseScreen = uiDocument.gameObject.GetComponent<FaseScreen>();
+        faseScreen = uiDocument.gameObject.GetComponent<FaseScreen>();
         faseScreen.InitScreen(data, player_Behavior);
+        PlayerTakingOffAnimation(); 
+        
         
         // LISTENERS
         OnPlayerLifeChanged += (life) => faseScreen.UpdatePlayerLife(life); 
@@ -156,15 +160,11 @@ public class Game_Events : MonoBehaviour
         camera_Behaviour = GameObject.FindWithTag("MainCamera").GetComponent<Camera_Behaviour>();
 
         // Background
-        background = GameObject.FindWithTag("Background"); 
-
-        // canvasAnimator = playerCanvas.GetComponent<Animator>();
+        background = GameObject.FindWithTag("Background");
 
         level_Islands.resetSpawnIslandTimer();
         level_Islands.setGameLevelIsland();
         level_Islands.setIslandTime();
-
-        StartCoroutine( PlayerTakingOffAnimation () );
 
         level_Islands.setSpawnIslandBool(true);    
         setCurrentPlaneAndGroundEnemys(); 
@@ -206,20 +206,20 @@ public class Game_Events : MonoBehaviour
     }
 
 
-    private IEnumerator PlayerTakingOffAnimation()
+    private void PlayerTakingOffAnimation()
     {   
-        playerAnimator.Play("playerTakeOff");
         gameStarted = false;
+        faseScreen.Animate_TakingOff(animTakinoffTimer, gameLevel, Continue_Before_Timer);
 
-        // playerCanvas.GetComponent<Player_Canvas>().setFaseText( getGameLevel().ToString() ); 
-        // playerCanvas.GetComponent<Player_Canvas>().decolandoPanel.SetActive(!gameStarted);
-        player_Behavior.setCanMove(gameStarted);
-        player_Behavior.setCanShot(gameStarted);
-        yield return new WaitForSeconds(timeToGameStarted);
-        gameStarted = true;
-        // playerCanvas.GetComponent<Player_Canvas>().decolandoPanel.SetActive(!gameStarted);
-        player_Behavior.setCanMove(gameStarted);
-        player_Behavior.setCanShot(gameStarted);
+        void Continue_Before_Timer()
+        {
+            gameStarted = true;
+
+            player_Behavior.setCanMove(gameStarted);
+            player_Behavior.setCanShot(gameStarted);
+        }
+
+        
     }
 
     void Update()
@@ -228,9 +228,6 @@ public class Game_Events : MonoBehaviour
         remainingEnemys(); 
         animateDropingUpgradePoints();
     }
-
-    // GAME CONTROLLER =================================
-   
 
     
     // ISLAND CONTROLLER ==============================
@@ -258,6 +255,7 @@ public class Game_Events : MonoBehaviour
 
     private IEnumerator MissionComplete(){
         audioSettings.setStageClear();
+        
         yield return new WaitForSeconds(animTimeMissionComplete);
         // missionComplete.SetActive(false);
         bossDropUpgradePoints = true;
@@ -319,7 +317,7 @@ public class Game_Events : MonoBehaviour
         // data.upgradePoints = int.Parse(playerCanvas.GetComponent<Player_Canvas>().upgradeText.text);
 
         if(gameLevel >= 4){
-            GameLootLoading.LoadScene("Creditos");
+            GameLootLoading.LoadScene(GameLootLoading.Scenes_To_Call.Creditos);
             return;
         }
 
@@ -330,19 +328,11 @@ public class Game_Events : MonoBehaviour
         data.hangarArrivals += 1;
 
         // Voltar para hangar
-        GameLootLoading.LoadScene("Hangar");
+        GameLootLoading.LoadScene(GameLootLoading.Scenes_To_Call.Hangar);
     }
 
     // Boss Arriving -----------------------------------------------
-    private void animateWarningCanvas(){
-        canvasAnimator.Play("WarningPanel");  
-        if( getGameLevel() == 4){
-            audioSettings.setBoss4FightMusic();
-        }else{
-            audioSettings.setBossFightMusic();
-        }   
-    }
-
+ 
     private void spawnBoss(){
         
         GameObject boss = Instantiate (bossGO[gameLevel - 1], bossSpawnPoint, Quaternion.identity);
@@ -380,43 +370,53 @@ public class Game_Events : MonoBehaviour
             player_Behavior.setCanShot(false); 
             
             bossInScene = true;
-            startBossCourotine();
-        }else if( (enemysInScene < maxEnemysInScene) && !bossInScene && gameStarted){
-            timerToRespawnEnemys();    
+            
+            Animate_Boss_Arriving();  
+            
+        }else if( (enemysInScene < maxEnemysInScene) && !bossInScene && gameStarted)
+        {
+            Spawn_Enemys_Plane();
         }
     }
 
-    private void startBossCourotine(){
-        StartCoroutine(spawnBossCourotine());  
-    }
-
-    private IEnumerator spawnBossCourotine(){
+    private void Animate_Boss_Arriving(){
         destroyAllEnemys();
-        animateWarningCanvas();
-
+        
+        // Sets the music to Play
+        if (getGameLevel() == 4)
+        {
+            audioSettings.setBoss4FightMusic();
+        }
+        else
+        {
+            audioSettings.setBossFightMusic();
+        }
 
         level_Islands.setSpawnIslandBool(false);
-        yield return new WaitForSeconds(animCanvasWarningTimer);
-        spawnBoss();
+
+        
+        // Animate the Warning message
+        faseScreen.Animate_Warning(animCanvasWarningTimer, spawnBoss);
+        
     }
 
 
 
-    private void timerToRespawnEnemys()
-    {   
-        if (timer > 0){
-            timer -= Time.deltaTime;
-        }else{
-            resetTimerToRespawn();
-            setEnemys();
-        }   
-    }
+    // private void timerToRespawnEnemys()
+    // {   
+    //     if (timer > 0){
+    //         timer -= Time.deltaTime;
+    //     }else{
+    //         resetTimerToRespawn();
+    //         setEnemys();
+    //     }   
+    // }
 
-    private void resetTimerToRespawn(){
-        timer = timerToRespawnEnemy;
-    }
+    // private void resetTimerToRespawn(){
+    //     timer = timerToRespawnEnemy;
+    // }
 
-    private void setEnemys(){
+    private void Spawn_Enemys_Plane(){
         float respawnSize = respawPlaneEnemys.transform.localScale.x / 2;
 
         GameObject enemyPlane = Instantiate(enemyPlaneGO, respawPlaneEnemys.transform.position, new Quaternion(0, 0 , 180, 0)) as GameObject;
@@ -557,9 +557,9 @@ public class Game_Events : MonoBehaviour
         return this.enemysDefeated;
     }
 
-    public Animator getCanvasAnimator(){
-        return this.canvasAnimator;
-    }
+    // public Animator getCanvasAnimator(){
+    //     return this.canvasAnimator;
+    // }
 
     public GameObject getBossGO(){
         return this.currentBossGO;
