@@ -1,173 +1,230 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Boss_Behaviour : MonoBehaviour
 {
-    [Header("Boss Settings")]
-    public Game_Events game_Events;
+    [Header("Boss Settings")] public Game_Events game_Events;
+
     public float speed;
     public int lifeOfTurrets;
     public List<Transform> turrets;
     public int childCount;
     public bool bossArrived = false;
 
-    [Header("Boss 4 Settings")]
-    public Transform boss4Spawn;
+    [Header("Boss 4 Settings")] public Transform boss4Spawn;
     public bool boss4arrived = false;
-  
 
-    [Header("Update Drops Settings")]
-    public int dropUpgradePoints;
+
+    [Header("Update Drops Settings")] public int dropUpgradePoints;
     public float dropAreaOffset;
     public float timeForDrop;
-    
-    [Header("Waypoints Settings")]
-    public GameObject waypointsGO;
+
+    [Header("Waypoints Settings")] public GameObject waypointsGO;
+    public AnimationCurve _curve;
     public Transform[] waypoints;
     public float distanceOffset = 0.05f;
     public int index = 0;
-    
+    public int auxIndex;
+    public float t = 0;
 
-    [Header("Stealth Settings")]
-    public bool stealthMode = false;
+    public Vector2 p0;
+    public Vector2 p1;
+    public Vector2 p2;
+
+    public Vector2 posA;
+    public Vector2 posB;
+
+    [Header("Stealth Settings")] public bool stealthMode;
     public float endStealth;
     public float currentStealthAlpha;
     public float stealthTime;
     public bool decreaseAplha = true;
     public float fireRateToIncrease;
 
-    [Header ("Enemywaves Settings")]
-    [SerializeField] private Transform bossWaveTransform;
+    [Header("Enemywaves Settings")]
+    [SerializeField]
+    private Transform bossWaveTransform;
+
     [SerializeField] private List<Transform> bossWaveTransformChildrens;
     [SerializeField] private List<GameObject> enemyPlanesWave;
-    [SerializeField] private bool spawningWave = false;
+    [SerializeField] private bool spawningWave;
 
 
     void Start()
-    {     
-        getChildrens();   
-        setTurretLifeByBoss();    
+    {
+        getChildrens();
+        setTurretLifeByBoss();
         setBossWaveTransform();
 
-        if(this.gameObject.name.Contains("Boss 4")) {
+        if (this.gameObject.name.Contains("Boss 4"))
+        {
             boss4Spawn = GameObject.FindGameObjectWithTag("Boss4Spawn").transform;
         }
     }
 
-    public void setBossArrived(bool b){
+
+
+
+    public void setBossArrived(bool b)
+    {
         bossArrived = b;
-        foreach (Transform tur in turrets){
-            if ( tur.gameObject.tag.Contains("Boss") ){
+        foreach (Transform tur in turrets)
+        {
+            if (tur.gameObject.tag.Contains("Boss"))
+            {
                 tur.gameObject.GetComponent<EnemyGround>().setBossArriveAnimation(b);
-            }else if ( tur.gameObject.tag.Contains("B3") ){
+            }
+            else if (tur.gameObject.tag.Contains("B3"))
+            {
                 tur.gameObject.GetComponent<Boss3Cannon>().setBossArriveAnimation(b);
             }
         }
     }
 
-    private void getChildrens(){
-        
+    private void getChildrens()
+    {
         Transform[] childrens = this.gameObject.transform.GetComponentsInChildren<Transform>();
         childCount = childrens.Length;
 
-        // for (int i = 1; i < childrens.Length; i++){
-        //     // Começa em i=1 pois, i=0 é o pai
-        //     // Se os Filhos nao contem na TAG o "Boss" ou "B3", entao diminui 1 na quantidade de filhos
-        //     if ( !childrens[i].gameObject.tag.Contains("Boss") || !childrens[i].gameObject.tag.Contains("B3") ){
-        //         childCount -= 1;
-        //     }
-        // }
-
-
-        for (int i = 1; i < childrens.Length; i++){
+        for (int i = 1; i < childrens.Length; i++)
+        {
             // Começa em i=1 pois, i=0 é o pai
             // Se os Filhos tiverem na TAG o "Boss", entao diminui coloca no vetor turrets
-            if ( childrens[i].gameObject.tag.Contains("Boss") || childrens[i].gameObject.tag.Contains("B3") ){
+            if (childrens[i].gameObject.tag.Contains("Boss") || childrens[i].gameObject.tag.Contains("B3"))
+            {
                 turrets.Add(childrens[i]);
             }
         }
 
         childCount = turrets.Count;
-       
     }
 
-    private void setTurretLifeByBoss(){
-        foreach (Transform tur in turrets){   
-            if(tur != null){
-                if( tur.tag.Contains("Boss") ){
+    private void setTurretLifeByBoss()
+    {
+        foreach (Transform tur in turrets)
+        {
+            if (tur != null)
+            {
+                if (tur.tag.Contains("Boss"))
+                {
                     Enemy_Behaviour tmp = tur.GetComponent<Enemy_Behaviour>();
-                    tmp.setLifeByBoss(lifeOfTurrets);  
+                    tmp.setLifeByBoss(lifeOfTurrets);
                     tmp.setParentBoss(this);
                 }
             }
         }
     }
 
-    void Update() {
+    void Update()
+    {
         move();
         waveDestroyed();
         changeAplhaForStealthMode();
     }
 
-  
 
-    public void move() {
-        if( this.gameObject.name.Contains("Boss 4") ){
-            if (!boss4arrived){
-                
-                transform.position = Vector2.MoveTowards(transform.position, boss4Spawn.position, speed * Time.deltaTime);
+    public void move()
+    {
+        if (!bossArrived) return;
 
-                if (Vector2.Distance(transform.position, boss4Spawn.position) <= distanceOffset) {  
-                    boss4arrived = true;
-                    setBossArrived(true);
-                    game_Events.getPlayer().GetComponent<Player_Behavior>().setCanShot(true);
-                }
+        if (this.gameObject.name.Contains("Boss 4")) return;
+
+        // Calculate Velocity
+        t = Mathf.MoveTowards(t, 1f, speed * Time.deltaTime);
+
+
+        // Gets the position of points
+        auxIndex = index;
+        p0 = waypoints[index].position;
+
+        auxIndex = (index + 1 < waypoints.Length) ? index + 1 : 0;
+        p1 = (waypoints[auxIndex] != null) ? waypoints[auxIndex].position : waypoints[0].position;
+
+        if (index + 2 < waypoints.Length) p2 = waypoints[index + 2].position;
+        else if (auxIndex == 0 && index + 2 >= waypoints.Length) p2 = waypoints[auxIndex + 1].position;
+        else p2 = waypoints[0].position;
+
+
+        // Do the lerp calculation
+        posA = Vector2.Lerp(p0, p1, t);
+        posB = Vector2.Lerp(p1, p2, t);
+
+        // Move
+        transform.position = Vector2.Lerp(posA, posB, _curve.Evaluate(t));
+
+        if (t >= 1f)
+        {
+            // // Gets the position of points
+            // auxIndex = index;
+            // p0 = waypoints[index].position;
+
+            // auxIndex = (index + 1 < waypoints.Length) ? index + 1 : 0;
+            // p1 = (waypoints[auxIndex] != null) ? waypoints[auxIndex].position : waypoints[0].position;
+
+            // if (index + 2 < waypoints.Length) p2 = waypoints[index + 2].position;
+            // else if (auxIndex == 0 && index + 2 >= waypoints.Length) p2 = waypoints[auxIndex + 1].position;
+            // else p2 = waypoints[0].position;
+
+
+            index += 2;
+            if (index >= waypoints.Length)
+            {
+                index = 0;
             }
 
-        }else{
-            transform.position = Vector3.MoveTowards(transform.position, waypoints[index].position, speed * Time.deltaTime);
-
-            if (Vector3.Distance(transform.position, waypoints[index].position) <= distanceOffset) {
-                index++;
-                if (index >= waypoints.Length) {
-                    index = 0;
-                }
+            if (auxIndex >= waypoints.Length)
+            {
+                auxIndex = 0;
             }
+
+            t = 0;
         }
-
     }
 
-    public void setSpeed(float s){ this.speed = s; }
+    public void setSpeed(float s)
+    {
+        this.speed = s;
+    }
 
-    public void decreaseTurret(){
+    public void decreaseTurret()
+    {
         childCount -= 1;
 
-        if(childCount <= 0){
+        if (childCount <= 0)
+        {
             Animator anim = GetComponent<Animator>();
 
-            if ( gameObject.name.Contains("Boss 4") ) {
+            if (gameObject.name.Contains("Boss 4"))
+            {
                 anim.Play("boss4Dead");
-            }else{
+            }
+            else
+            {
                 anim.Play("bossDead");
             }
-        } 
+        }
 
-        else if ( gameObject.name.Contains("Boss 1") ) {
+        else if (gameObject.name.Contains("Boss 1"))
+        {
             activeStealth();
-        } 
+        }
 
-        else if ( gameObject.name.Contains("Boss 2") ) {
+        else if (gameObject.name.Contains("Boss 2"))
+        {
             checkSpawnWave();
         }
 
-        else if ( gameObject.name.Contains("Boss 4") ) {
+        else if (gameObject.name.Contains("Boss 4"))
+        {
             activeStealth();
             checkSpawnWave();
         }
     }
-    
-    public void setWaypoints(GameObject ways){
+
+    public void setWaypoints(GameObject ways)
+    {
         waypointsGO = ways;
 
         int waypointsCount = waypointsGO.transform.childCount;
@@ -175,16 +232,20 @@ public class Boss_Behaviour : MonoBehaviour
 
         Transform[] childrens = waypointsGO.transform.GetComponentsInChildren<Transform>();
 
-        for (int i = 0; i < waypoints.Length; i++){
-            waypoints[i] = childrens[i+1];
+        for (int i = 0; i < waypoints.Length; i++)
+        {
+            waypoints[i] = childrens[i + 1];
         }
-        
+
+        p0 = waypoints[0].position;
+        p1 = waypoints[1].position;
+        p2 = waypoints[2].position;
     }
 
-    public void setGameEvents(Game_Events ge){
+    public void setGameEvents(Game_Events ge)
+    {
         this.game_Events = ge;
     }
-
 
 
     // ===========================
@@ -194,66 +255,81 @@ public class Boss_Behaviour : MonoBehaviour
     // STEALTH MODE
     // ============================
 
-    public void activeStealth() {
+    public void activeStealth()
+    {
         // Ativa o modo stealth
-        StartCoroutine(ActivateStealth());         
+        StartCoroutine(ActivateStealth());
     }
 
-    private IEnumerator ActivateStealth() {
+    private IEnumerator ActivateStealth()
+    {
         resetStealthEnd();
         this.stealthMode = true;
         change_FireRate_And_Invulnerable();
-        yield return new WaitForSeconds(stealthTime); 
+        yield return new WaitForSeconds(stealthTime);
         this.stealthMode = false;
         change_FireRate_And_Invulnerable();
         resetStealthEnd();
     }
 
-    private void change_FireRate_And_Invulnerable() {
-        foreach (Transform tur in turrets){   
-            if(tur != null){
-                if( tur.tag.Contains("Boss")){ 
+    private void change_FireRate_And_Invulnerable()
+    {
+        foreach (Transform tur in turrets)
+        {
+            if (tur != null)
+            {
+                if (tur.tag.Contains("Boss"))
+                {
                     Enemy_Behaviour tmp = tur.GetComponent<Enemy_Behaviour>();
 
-                    if(this.stealthMode){
+                    if (this.stealthMode)
+                    {
                         tmp.setFireRate(fireRateToIncrease);
-                    } else {
+                    }
+                    else
+                    {
                         tmp.resetFireRate();
                     }
 
                     tmp.setInvulnerable(this.stealthMode);
-
-                }else if (tur.tag.Contains("B3Cannon")){
+                }
+                else if (tur.tag.Contains("B3Cannon"))
+                {
                     Boss3Cannon tmp = tur.GetComponent<Boss3Cannon>();
                     tmp.setInvulnerable(this.stealthMode);
                 }
-            }    
+            }
         }
     }
 
-    private void changeAplhaForStealthMode(){
-        if(this.stealthMode){
+    private void changeAplhaForStealthMode()
+    {
+        if (this.stealthMode)
+        {
             changeAlphaOverTime();
         }
     }
 
-    private void changeAlphaOverTime(){
-
+    private void changeAlphaOverTime()
+    {
         // Altera endStealth com o passar do tempo
         // Ate a metado do tempo ele diminui o alpha
         // Depois ele troca a chave e aumenta o alpha ate 1
-        if ( (this.endStealth > this.stealthTime/2) && (this.decreaseAplha) ){
+        if ((this.endStealth > this.stealthTime / 2) && (this.decreaseAplha))
+        {
             this.endStealth -= Time.deltaTime;
-
-        }else{
-            if ( (this.currentStealthAlpha < .5f) && (this.decreaseAplha) ){
+        }
+        else
+        {
+            if ((this.currentStealthAlpha < .5f) && (this.decreaseAplha))
+            {
                 this.decreaseAplha = false;
             }
 
             this.endStealth += Time.deltaTime;
         }
 
-        this.currentStealthAlpha = this.endStealth/this.stealthTime ;
+        this.currentStealthAlpha = this.endStealth / this.stealthTime;
 
         // Muda cor desse Objeto (boss)
         Color myAlpha = gameObject.GetComponent<SpriteRenderer>().color;
@@ -262,28 +338,30 @@ public class Boss_Behaviour : MonoBehaviour
 
         // para cada filho do boss altera o Aplha
         foreach (Transform tur in turrets)
-        {   
-            if(tur != null){
+        {
+            if (tur != null)
+            {
                 // Debug.Log("name: " + tur.name);
                 Color tmp = tur.GetComponent<SpriteRenderer>().color;
                 tmp.a = this.currentStealthAlpha;
                 tur.GetComponent<SpriteRenderer>().color = tmp;
-            }    
+            }
         }
-
     }
 
-    public bool getStealthMode(){
+    public bool getStealthMode()
+    {
         return this.stealthMode;
     }
-   
-    private void resetStealthEnd(){
+
+    private void resetStealthEnd()
+    {
         this.endStealth = this.stealthTime;
         this.currentStealthAlpha = 1f;
         this.decreaseAplha = true;
     }
 
-     // ===========================
+    // ===========================
     // BOSS 2
     // ============================
     // ===========================
@@ -291,31 +369,40 @@ public class Boss_Behaviour : MonoBehaviour
     // ============================
 
     // Vindo do Start(), checa se o objeto é o Boss 2
-    private void setBossWaveTransform(){
-        if( gameObject.name.Contains("Boss 2") || gameObject.name.Contains("Boss 4")) { 
+    private void setBossWaveTransform()
+    {
+        if (gameObject.name.Contains("Boss 2") || gameObject.name.Contains("Boss 4"))
+        {
             this.bossWaveTransform = GameObject.FindGameObjectWithTag("Boss2SpawnWaves").GetComponent<Transform>();
-            
+
             int childCount = bossWaveTransform.transform.childCount;
 
             Transform[] childrens = bossWaveTransform.transform.GetComponentsInChildren<Transform>();
 
-            for (int i = 1; i < childrens.Length; i++){
+            for (int i = 1; i < childrens.Length; i++)
+            {
                 bossWaveTransformChildrens.Add(childrens[i]);
             }
         }
     }
 
-    private void checkSpawnWave(){
-        if ( spawningWave && bossArrived) return;
+    private void checkSpawnWave()
+    {
+        if (spawningWave && bossArrived) return;
 
         spawnWave();
     }
 
-    private void spawnWave(){
-        bossWaveTransform.gameObject.transform.position = new Vector2( this.gameObject.transform.position.x, bossWaveTransform.gameObject.transform.position.y) ;
+    private void spawnWave()
+    {
+        bossWaveTransform.gameObject.transform.position = new Vector2(this.gameObject.transform.position.x,
+            bossWaveTransform.gameObject.transform.position.y);
 
-        foreach(Transform wave in bossWaveTransformChildrens){
-            GameObject enemyBossPlane = Instantiate( game_Events.getPlaneEnemy(), wave.transform.position, new Quaternion(0, 0 , 180, 0)) as GameObject; 
+        foreach (Transform wave in bossWaveTransformChildrens)
+        {
+            GameObject enemyBossPlane =
+                Instantiate(game_Events.getPlaneEnemy(), wave.transform.position,
+                    new Quaternion(0, 0, 180, 0)) as GameObject;
             enemyBossPlane.GetComponent<Enemy_Behaviour>().setFromBoss();
             enemyPlanesWave.Add(enemyBossPlane);
         }
@@ -323,16 +410,21 @@ public class Boss_Behaviour : MonoBehaviour
         spawningWave = true;
     }
 
-    private void waveDestroyed(){
-        if( spawningWave && (enemyPlanesWave.Count > 0) ){
+    private void waveDestroyed()
+    {
+        if (spawningWave && (enemyPlanesWave.Count > 0))
+        {
             int count = 0;
 
-            for (int i = 0; i < enemyPlanesWave.Count; i++){
-                if (enemyPlanesWave[i] == null) { 
-                    count += 1; 
+            for (int i = 0; i < enemyPlanesWave.Count; i++)
+            {
+                if (enemyPlanesWave[i] == null)
+                {
+                    count += 1;
                 }
 
-                if(enemyPlanesWave.Count == count){
+                if (enemyPlanesWave.Count == count)
+                {
                     spawningWave = false;
                     enemyPlanesWave.Clear();
                 }
@@ -341,26 +433,27 @@ public class Boss_Behaviour : MonoBehaviour
     }
 
 
-
-
     // ===========================
     // GETTERS
     // ============================
 
-    public int getDropUpgradePoints(){
+    public int getDropUpgradePoints()
+    {
         return this.dropUpgradePoints;
     }
 
-    public float getDropAreaOffset(){
+    public float getDropAreaOffset()
+    {
         return this.dropAreaOffset;
     }
-    
-    public float getTimeForDrop(){
+
+    public float getTimeForDrop()
+    {
         return this.timeForDrop;
     }
 
-    public Game_Events getGameEvents(){
+    public Game_Events getGameEvents()
+    {
         return this.game_Events;
     }
-
 }

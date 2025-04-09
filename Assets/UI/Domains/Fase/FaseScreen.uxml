@@ -1,38 +1,43 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI/Runtime/Styles/PlayerHUD.uss?fileID=7433441132597879392&amp;guid=9da94e86828c65a46a52729cff2a9dd6&amp;type=3#PlayerHUD" />
-    <engine:VisualElement name="root" style="flex-grow: 1; align-items: flex-start; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; flex-direction: row;">
-        <engine:VisualElement name="PlayerStatus" class="player-status">
-            <engine:VisualElement name="LifeStatus" class="status-card">
-                <engine:VisualElement name="StatusImage" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/Sprites/Sprites/Upgrades/Life_Capsule.png?fileID=2800000&amp;guid=97ba9fc67c83adb48b63c056a1fe0845&amp;type=3#Life_Capsule&quot;); height: 70px; width: 65px;" />
-                <engine:VisualElement name="StatusValue" style="flex-grow: 0; color: rgb(255, 252, 252); -unity-font-definition: url(&quot;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&quot;); -unity-text-align: middle-center; font-size: 40px;">
-                    <engine:Label text="0" name="LifePoints" style="align-items: center; justify-content: center; -unity-text-outline-width: 1px; -unity-text-outline-color: rgb(66, 75, 97); -unity-font-style: bold;" />
+    <Style src="project://database/Assets/UI/Core/Styles/PlayerHUD.uss?fileID=7433441132597879392&amp;guid=9da94e86828c65a46a52729cff2a9dd6&amp;type=3#PlayerHUD" />
+    <engine:VisualElement name="root" style="flex-grow: 0; align-items: flex-start; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; width: 100%; height: 100%;">
+        <engine:VisualElement name="PaddingElement" style="flex-grow: 0; width: 100%; height: 100%; padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px; align-items: flex-start;">
+            <engine:VisualElement name="PlayerStatus" class="player-status" style="height: 110px; background-color: rgba(0, 0, 0, 0.48);">
+                <engine:VisualElement name="LifeStatus" class="status-card">
+                    <engine:VisualElement name="StatusImage" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/Sprites/Sprites/Upgrades/Life_Capsule.png?fileID=2800000&amp;guid=97ba9fc67c83adb48b63c056a1fe0845&amp;type=3#Life_Capsule&quot;); height: 70px; width: 65px;" />
+                    <engine:VisualElement name="StatusValue" style="flex-grow: 0; color: rgb(255, 252, 252); -unity-font-definition: url(&quot;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&quot;); -unity-text-align: middle-center; font-size: 40px;">
+                        <engine:Label text="0" name="LifePoints" style="align-items: center; justify-content: center; -unity-text-outline-width: 1px; -unity-text-outline-color: rgb(66, 75, 97); -unity-font-style: bold;" />
+                    </engine:VisualElement>
+                </engine:VisualElement>
+                <engine:VisualElement name="UpgradeStatus" class="status-card">
+                    <engine:VisualElement name="StatusImage" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/Sprites/Sprites/Upgrades/Upgrade_Capsule.png?fileID=2800000&amp;guid=59b0d60e0482e1e4eb8f3400cf1a7923&amp;type=3#Upgrade_Capsule&quot;); height: 70px; width: 65px;" />
+                    <engine:VisualElement name="StatusValue" style="flex-grow: 0; color: rgb(255, 252, 252); -unity-font-definition: url(&quot;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&quot;); -unity-text-align: middle-center; font-size: 40px;">
+                        <engine:Label text="0" name="UpgradePoints" class="status-label" />
+                    </engine:VisualElement>
+                </engine:VisualElement>
+                <engine:VisualElement name="BombStatus" class="status-card">
+                    <engine:VisualElement name="StatusImage" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/Sprites/Sprites/Bombs/Bomb%2001.png?fileID=2800000&amp;guid=690dc865b5ecd5547ac143d4ef1c315c&amp;type=3#Bomb 01&quot;); height: 70px; width: 65px;" />
+                    <engine:VisualElement name="StatusValue" style="flex-grow: 0; color: rgb(255, 252, 252); -unity-font-definition: url(&quot;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&quot;); -unity-text-align: middle-center; font-size: 40px;">
+                        <engine:Label text="0" name="BombPoints" style="align-items: center; justify-content: center; -unity-text-outline-width: 1px; -unity-text-outline-color: rgb(66, 75, 97); -unity-font-style: bold;" />
+                    </engine:VisualElement>
                 </engine:VisualElement>
             </engine:VisualElement>
-            <engine:VisualElement name="UpgradeStatus" class="status-card">
-                <engine:VisualElement name="StatusImage" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/Sprites/Sprites/Upgrades/Upgrade_Capsule.png?fileID=2800000&amp;guid=59b0d60e0482e1e4eb8f3400cf1a7923&amp;type=3#Upgrade_Capsule&quot;); height: 70px; width: 65px;" />
-                <engine:VisualElement name="StatusValue" style="flex-grow: 0; color: rgb(255, 252, 252); -unity-font-definition: url(&quot;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&quot;); -unity-text-align: middle-center; font-size: 40px;">
-                    <engine:Label text="0" name="UpgradePoints" class="status-label" />
+            <engine:VisualElement name="PlayerProgress" class="player-progress">
+                <engine:VisualElement name="ProgressBar" style="flex-grow: 0; width: 100%; background-color: rgba(255, 244, 0, 0.79); height: 0; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px;" />
+                <engine:VisualElement name="BossImageContainer" style="position: absolute; width: 60px; height: 60px; right: auto; top: -50px;">
+                    <engine:VisualElement name="Circle" style="flex-grow: 0; width: 100%; height: 100%; border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 5px; border-top-left-radius: 50%; border-top-right-radius: 50%; border-bottom-right-radius: 50%; border-bottom-left-radius: 50%; border-left-color: rgb(213, 204, 11); border-right-color: rgb(213, 204, 11); border-top-color: rgb(213, 204, 11); border-bottom-color: rgb(213, 204, 11); position: absolute; background-color: rgb(46, 46, 46);" />
+                    <engine:VisualElement name="BossImage" style="width: 100%; height: 100%; position: absolute; background-image: url(&quot;project://database/Assets/Sprites/Sprites/Boss/Boss%202.png?fileID=2800000&amp;guid=e224f92de6bace341af52caf9208484b&amp;type=3#Boss 2&quot;);" />
                 </engine:VisualElement>
             </engine:VisualElement>
-            <engine:VisualElement name="BombStatus" class="status-card">
-                <engine:VisualElement name="StatusImage" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/Sprites/Sprites/Bombs/Bomb%2001.png?fileID=2800000&amp;guid=690dc865b5ecd5547ac143d4ef1c315c&amp;type=3#Bomb 01&quot;); height: 70px; width: 65px;" />
-                <engine:VisualElement name="StatusValue" style="flex-grow: 0; color: rgb(255, 252, 252); -unity-font-definition: url(&quot;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&quot;); -unity-text-align: middle-center; font-size: 40px;">
-                    <engine:Label text="0" name="BombPoints" style="align-items: center; justify-content: center; -unity-text-outline-width: 1px; -unity-text-outline-color: rgb(66, 75, 97); -unity-font-style: bold;" />
-                </engine:VisualElement>
+            <engine:VisualElement name="TakingOffContainer" style="flex-grow: 0; width: 100%; position: absolute; height: 376px; bottom: 1000px; align-items: center; justify-content: center; display: none; opacity: 1;">
+                <engine:Label text="STAGE" name="StageLabel" style="align-items: center; justify-content: center; width: auto; height: auto; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: middle-center; -unity-font-style: bold; font-size: 100px; color: rgb(255, 255, 0); -unity-text-outline-width: 5px; -unity-text-outline-color: rgb(0, 0, 0);" />
+            </engine:VisualElement>
+            <engine:VisualElement name="WarningContainer" style="flex-grow: 0; width: 100%; position: absolute; height: 376px; bottom: 1000px; align-items: center; justify-content: center; display: none; transition-property: display; transition-duration: 100ms;">
+                <engine:Label text="WARNING" name="WarningLabel" style="align-items: center; justify-content: center; width: auto; height: auto; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: middle-center; -unity-font-style: bold; font-size: 100px; color: rgb(255, 255, 0); -unity-text-outline-width: 5px; -unity-text-outline-color: rgb(0, 0, 0);" />
             </engine:VisualElement>
         </engine:VisualElement>
-        <engine:VisualElement name="PlayerProgress" class="player-progress">
-            <engine:VisualElement name="ProgressBar" style="flex-grow: 0; width: 100%; background-color: rgba(255, 244, 0, 0.79); height: 0; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px;" />
-            <engine:VisualElement name="BossImageContainer" style="position: absolute; width: 60px; height: 60px; right: auto; top: -50px;">
-                <engine:VisualElement name="Circle" style="flex-grow: 0; width: 100%; height: 100%; border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 5px; border-top-left-radius: 50%; border-top-right-radius: 50%; border-bottom-right-radius: 50%; border-bottom-left-radius: 50%; border-left-color: rgb(213, 204, 11); border-right-color: rgb(213, 204, 11); border-top-color: rgb(213, 204, 11); border-bottom-color: rgb(213, 204, 11); position: absolute; background-color: rgb(46, 46, 46);" />
-                <engine:VisualElement name="BossImage" style="width: 100%; height: 100%; position: absolute; background-image: url(&quot;project://database/Assets/Sprites/Sprites/Boss/Boss%202.png?fileID=2800000&amp;guid=e224f92de6bace341af52caf9208484b&amp;type=3#Boss 2&quot;);" />
-            </engine:VisualElement>
-        </engine:VisualElement>
-        <engine:VisualElement name="TakingOffContainer" style="flex-grow: 0; width: 100%; position: absolute; height: 376px; bottom: 1000px; align-items: center; justify-content: center; display: none; opacity: 1;">
-            <engine:Label text="STAGE" name="StageLabel" style="align-items: center; justify-content: center; width: auto; height: auto; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: middle-center; -unity-font-style: bold; font-size: 100px; color: rgb(255, 255, 0); -unity-text-outline-width: 5px; -unity-text-outline-color: rgb(0, 0, 0);" />
-        </engine:VisualElement>
-        <engine:VisualElement name="WarningContainer" style="flex-grow: 0; width: 100%; position: absolute; height: 376px; bottom: 1000px; align-items: center; justify-content: center; display: none; transition-property: display; transition-duration: 100ms;">
-            <engine:Label text="WARNING" name="WarningLabel" style="align-items: center; justify-content: center; width: auto; height: auto; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: middle-center; -unity-font-style: bold; font-size: 100px; color: rgb(255, 255, 0); -unity-text-outline-width: 5px; -unity-text-outline-color: rgb(0, 0, 0);" />
+        <engine:VisualElement name="PauseMenu" enabled="true" style="flex-grow: 0; position: absolute; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.78); -unity-text-align: middle-center; align-items: center; justify-content: center; display: none; transition-property: display; transition-duration: 500ms; transition-timing-function: ease-in-out;">
+            <engine:Label text="PAUSE" style="-unity-font-style: bold; font-size: 150px; color: rgb(255, 255, 0); -unity-text-outline-width: 5px; -unity-text-outline-color: rgb(0, 0, 0);" />
         </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>

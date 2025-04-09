@@ -16,7 +16,7 @@ public class MainMenuScreen : MonoBehaviour
     private VisualElement mainMenuScreen;
     private VisualElement howToPlayScreen;
     private VisualElement choosePlaneScreen;
-    
+       
 
     public Player_Sprites player_Sprites;
 
@@ -72,7 +72,9 @@ public class MainMenuScreen : MonoBehaviour
         void SetPlayerSprites(Sprite[] playerSprites)
         {
             setPlayerSprite(playerSprites);
-            GameLootLoading.LoadScene(GameLootLoading.Scenes_To_Call.Fase);
+
+            GameLootLoading gameLootLoading = FindAnyObjectByType<GameLootLoading>();
+            gameLootLoading.LoadScene(Scenes_To_Call.Fase);
         }
 
         var RedPlaneButton = screen.Q<Button>("RedPlaneButton");

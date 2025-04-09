@@ -9,32 +9,48 @@ public class UpgradeCosts : MonoBehaviour
 
     [Header("Plane")]
     public int fuselagemCost;
-    public int fuselagemSold;
+    public bool fuselagemSold;
     public int fuselagemNextCost;
 
 
     [Header("Bomb ")]
     public int raioCost;
     public float raioUpgrade;
-    public int raioSold;
+    public bool raioSold;
     public int raioInitialCost;
     public int raioNextCost;
 
     [Header("Speed")]
     public int speedCost;
     public float speedUpgrade;
-    public int speedSold;
+    public bool speedSold;
     public int speedNextCost;
 
     [Header("Fire rate")]
     public int firerateCost;
     public float firerateUpgrade;
-    public int firerateSold;
+    public bool firerateSold;
     public int firerateNextCost;
 
+
+    private Dictionary<UpgradeType, int> UpgradesNextCost;
+  
     void Start()
     {
+        UpgradesNextCost = new ()
+        {
+            { UpgradeType.NextPlane, fuselagemNextCost },
+            { UpgradeType.Bomb, raioNextCost },
+            { UpgradeType.Speed, speedNextCost },
+            { UpgradeType.FireRate, firerateNextCost },
+        };
+        
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    public int GetNextUpgrade(UpgradeType upgradeType)
+    {
+        return UpgradesNextCost[upgradeType];
     }
 
 }

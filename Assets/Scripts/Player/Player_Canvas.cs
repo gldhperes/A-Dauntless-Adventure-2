@@ -74,10 +74,10 @@ public class Player_Canvas : MonoBehaviour
 
     // BUTTONS FUNCTIONS ======================================
     public void restartLevel(){
-        GameLootLoading.LoadScene(GameLootLoading.Scenes_To_Call.Fase);
+        // GameLootLoading.LoadScene(GameLootLoading.Scenes_To_Call.Fase);
     }
 
     public void quitLevel(){
-        GameLootLoading.LoadScene(GameLootLoading.Scenes_To_Call.Hangar);
+        // GameLootLoading.LoadScene(GameLootLoading.Scenes_To_Call.Hangar);
     }        
 }

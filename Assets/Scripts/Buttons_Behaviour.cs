@@ -59,7 +59,7 @@ public class Buttons_Behaviour : MonoBehaviour
         // resetPlayerData(); 
         // resetPlayerSprites();
         // resetUpgradeCosts();
-        GameLootLoading.LoadScene(scene);
+        // (scene);
     }
 
     // private void resetPlayerData(){

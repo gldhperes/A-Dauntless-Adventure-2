@@ -31,5 +31,28 @@ public class Player_Sprites : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    
+    public void SetPlayerNextPlane()
+    {
+        myPlayerSprite = GetNextPlayerPlane();
+    }
+
+    public Sprite GetNextPlayerPlane()
+    {
+        Sprite nextPlayerPlaneSprite = myPlayerSprite;
+
+
+        for (int i = 0; i < myPlayerPlanes.Length - 1; i++)
+        {
+            
+            if ((myPlayerPlanes[i] == myPlayerSprite) && (myPlayerPlanes[i + 1] != null))
+            {
+                nextPlayerPlaneSprite = myPlayerPlanes[i+1];
+                break;
+            }
+        }
+
+        return nextPlayerPlaneSprite;
+    }
+
+
 }

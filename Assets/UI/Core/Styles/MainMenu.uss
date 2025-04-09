@@ -1,0 +1,55 @@
+.main-menu {
+}
+
+.main-menu .unity-label {
+    color: rgb(200, 200, 200);
+}
+
+.unity-text-element {
+    color: rgb(200, 200, 200);
+}
+
+.main-menu .unity-label:hover {
+    color: rgb(255, 255, 255);
+    
+}
+
+.main-menu .unity-button:hover {
+    color: rgb(255, 255, 255);
+}
+
+.choose-plane {
+}
+
+.choose-plane-card {
+    width: 100%;
+    align-content: auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 15px;
+    padding-right: 20px;
+    padding-bottom: 15px;
+    padding-left: 20px;
+    background-color: rgba(0, 0, 0, 0.78);
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.choose-plane-card:hover {
+    background-color: rgb(38, 38, 38);
+}

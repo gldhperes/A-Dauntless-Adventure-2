@@ -14,7 +14,7 @@ public class Enemy_Behaviour : MonoBehaviour
     [SerializeField] private bool fromBoss = false;
     
     [SerializeField] private Boss_Behaviour boss_Behaviour;
-    public bool invulnerable = false;
+    public bool invulnerable;
 
     [SerializeField] private GameObject explosionPrefab;
     
@@ -31,8 +31,7 @@ public class Enemy_Behaviour : MonoBehaviour
     [SerializeField]
     private float leftBound;
     public bool enterCamView;
-    public bool playerIsInBound;
-
+    
     [Header("Enemy Settings")]
     public string enemyType;
     public int life = 1;
@@ -45,52 +44,12 @@ public class Enemy_Behaviour : MonoBehaviour
     public float thisFireRate;
     public float timer;
 
-    public void setCamPos(){
-        upBound = game_Events.GetCameraBehaviour().getUpBound();
-        downBound = game_Events.GetCameraBehaviour().getDownBound();
-        rightBound = game_Events.GetCameraBehaviour().getRightBound();
-        leftBound = game_Events.GetCameraBehaviour().getLeftBound();
-    }
+   
 
     public void resetTimerToShot(){
         timer = fireRate;
     }
-
-    // Checa se o inimigo esta ao redor da area Camera para fazer suas ações
-    public void enterCameraView(){
-        // Debug.Log("Up: "+ camPosUp + " Down: "+ camPosDown + " thisPos: " + this.transform.position.y);
-
-        if ( (transform.position.y <= upBound) && (transform.position.y >= downBound) && (transform.position.x >= leftBound) && (transform.position.x <= rightBound)){
-            playerIsInBound = true;
-            // enterCamView = true;
-        }else if (transform.position.y < downBound){
-            playerIsInBound = false;
-            enterCamView = false;
-        }
-    }
-
-   
-
-
-    public void move(){
-        transform.Translate( new Vector2( 0, speed ) * Time.deltaTime, Space.Self );
-    }
-
-    public void respawn(){
-        if (fromBoss){
-            if (this.gameObject.transform.position.y <= -3f) Destroy(this.gameObject);
-            else return;
-        }
-        else if (!playerIsInBound && !enterCamView){
-            GameObject respawn = game_Events.getRespawn();
-            float respawnSize = respawn.transform.localScale.x / 2;
-            // Debug.Log("saiu");
-            // gerar numero aleatorio (pos X) de onde o inimigo ira respawnar    
-            transform.position = new Vector2(Random.Range( -respawnSize, respawnSize ), respawn.transform.position.y);
-            enterCamView = true;
-        }
-    }
-
+    
     public void takeDamage(int damage){
         if(invulnerable){ return; }
 
@@ -101,19 +60,19 @@ public class Enemy_Behaviour : MonoBehaviour
             }
         }
 
-        life = life - damage;
-        StartCoroutine( TakingDamage() );
-        checkLife();
+        life -= damage;
+        StartCoroutine( AnimateTakingDamage() );
+        CheckLife();
     }
 
-    private IEnumerator TakingDamage(){
+    private IEnumerator AnimateTakingDamage(){
         SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
         sprite.color = Color.red;
         yield return new WaitForSeconds(0.1f);
         sprite.color = Color.white;
     }
 
-    public void checkLife(){
+    public void CheckLife(){
         // Debug.Log("enemyType: "+ enemyType);
         // Debug.Log("enemy: "+ this.transform.gameObject.name);
         // Debug.Log("life: " + life);
@@ -124,22 +83,35 @@ public class Enemy_Behaviour : MonoBehaviour
             }
 
             if ( (enemyType == "Plane") || (enemyType == "Ground") ){
-                game_Events.enemyCountdown();
-
+                // game_Events.enemyCountdown();
+                // 1 - Fazer Event para Game_Events adicionar à barra de Enemys defeated
+                // game_Events.OnEnemyDefeated?.Invoke();
+                Game_Events.OnEnemyDefeated?.Invoke();
             }
 
-            player.GetComponent<Player_Behavior>().fillBombSpecial(.5f);
-            dropItem();
+            
+            // 2- Fazer Event para Player
+            player.GetComponent<Player_Behavior>().fillBombSpecial(.5f); 
+            
+            
+            DropItem();
+            DeathAnimation();
+        }
+    }
+
+    private void DeathAnimation()
+    {
+            // 3 - Animação de morte
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             Destroy(gameObject);
-        }
+        
     }
 
     public void setSprite(Sprite _sprite){
         transform.gameObject.GetComponent<SpriteRenderer>().sprite = _sprite;
     }
 
-    private void dropItem(){
+    private void DropItem(){
         if (fromBoss) return;
 
         int dropShield = Random.Range(0, 100);

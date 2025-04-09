@@ -29,7 +29,8 @@ public class Player_Behavior : MonoBehaviour
     [SerializeField] private float explosionArea;
 
 
-    [Header("Shot Settings")] [SerializeField]
+    [Header("Shot Settings")]
+    [SerializeField]
     private GameObject bullet;
 
     // [SerializeField]
@@ -52,7 +53,8 @@ public class Player_Behavior : MonoBehaviour
     // [SerializeField]
     private float sizeSprite;
 
-    [Header("Bomb Settings")] [SerializeField]
+    [Header("Bomb Settings")]
+    [SerializeField]
     private Image bombImage;
 
     [SerializeField] private GameObject bombGO;
@@ -68,7 +70,6 @@ public class Player_Behavior : MonoBehaviour
     // [Header("Upgrade Settings")]
     // [SerializeField]
     private int upgradePoints;
-    public event Action<int> OnUpgradePointsChanged;
 
 
     // [Tooltip ("Lista recebida quando o boss é morto")]
@@ -83,16 +84,17 @@ public class Player_Behavior : MonoBehaviour
     public float timeToCallHangar;
 
 
-    [Header("Shield Settings")] [SerializeField]
+    [Header("Shield Settings")]
+    [SerializeField]
     private AudioClip shieldSound;
 
-    [SerializeField] private Image shieldImage;
     [SerializeField] private bool shieldUp = false;
 
     //Shield Colours
     [SerializeField] private Color myColor;
 
-    [SerializeField] private Color[] colors =
+    [SerializeField]
+    private Color[] colors =
         { Color.blue, Color.cyan, Color.green, Color.yellow, Color.red, Color.magenta };
 
     [SerializeField] private float colorTime;
@@ -101,13 +103,16 @@ public class Player_Behavior : MonoBehaviour
     // Shield Timers
     [SerializeField] private float thisShotTime = 0;
 
-    [Tooltip("Divisão entre valores que vai de 0 a 1 e completa o Fill_Amount da imagem do Escudo")] [SerializeField]
+    [Tooltip("Divisão entre valores que vai de 0 a 1 e completa o Fill_Amount da imagem do Escudo")]
+    [SerializeField]
     private float thisShieldTime;
 
-    [Tooltip("Tempo que aumenta até acabar o tempo do Escudo")] [SerializeField]
+    [Tooltip("Tempo que aumenta até acabar o tempo do Escudo")]
+    [SerializeField]
     private float endShield = 0;
 
-    [Tooltip("Tempo máximo do Escudo")] [SerializeField]
+    [Tooltip("Tempo máximo do Escudo")]
+    [SerializeField]
     private float shieldTime;
 
 
@@ -136,7 +141,8 @@ public class Player_Behavior : MonoBehaviour
     // [SerializeField]
     private float sideways;
 
-    [Header("Camera Settings")] [SerializeField]
+    [Header("Camera Settings")]
+    [SerializeField]
     private Camera mainCam;
 
     [SerializeField] private Camera_Behaviour camera_Behaviour;
@@ -166,15 +172,11 @@ public class Player_Behavior : MonoBehaviour
         mainCam = game_Events.getMainCam();
         camera_Behaviour = game_Events.GetCameraBehaviour();
         bullet = game_Events.getPlayerBullet();
-        // shotImage = player_Canvas.getShotImage();
-        // bombImage = player_Canvas.getBombImage();
-        // shieldImage = player_Canvas.getShieldImage();
-        // amount = shotImage.fillAmount;
+       
 
         bombEnable = data.playerBombEnable;
 
         resetFireReady();
-        // shieldImage.fillAmount = 1f;
 
         getCameraBounds();
         // setPlayerJoystick();
@@ -185,6 +187,13 @@ public class Player_Behavior : MonoBehaviour
     //     this.joystick = game_Events.getJoystick();
     // }
 
+
+    public IEnumerator Animate_TakingOff(float animTime)
+    {
+        Animator animator = gameObject.GetComponent<Animator>();
+        animator.Play("playerTakeOff");
+        yield return new WaitForSeconds(animTime);
+    }
 
     private void getCameraBounds()
     {
@@ -373,15 +382,6 @@ public class Player_Behavior : MonoBehaviour
         }
     }
 
-    // private void animateFireReady()
-    // {
-    //     if (!mayShot)
-    //     {
-    //         amount -= Time.deltaTime;
-    //         shotImage.fillAmount = amount / fireRate;
-    //     }
-    // }
-
     private void resetFireReady()
     {
         amount = 1f;
@@ -389,7 +389,7 @@ public class Player_Behavior : MonoBehaviour
     }
 
     // ================================================
-    // BOMB BBEHAVIOUR ================================
+    // BOMB BEHAVIOUR ================================
     // ================================================
     private void updateBombImage()
     {
@@ -580,14 +580,12 @@ public class Player_Behavior : MonoBehaviour
         {
             endShield = endShield + Time.deltaTime; // End Shield é o tempo que acaba o shield
             thisShieldTime = endShield / shieldTime;
-            shieldImage.fillAmount = thisShieldTime;
         }
     }
 
     private void resetShieldEnd()
     {
         endShield = 0f;
-        shieldImage.fillAmount = endShield;
     }
 
 

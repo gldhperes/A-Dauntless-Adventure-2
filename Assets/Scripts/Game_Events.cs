@@ -8,30 +8,30 @@ using System.Collections.Generic;
 using UnityEngine.UIElements;
 
 public class Game_Events : MonoBehaviour
-{   
-    [Header("Game Settings")]
-    public SO_Data data;
+{
+    [Header("Game Settings")] public SO_Data data;
     public Player_Sprites player_Sprites;
     public int gameLevel;
     public int checkpointsInScene;
     public int enemysToSpawnCheckpoint;
     public bool gameStarted;
     public AudioSettings audioSettings;
+
+
     // [SerializeField] private MobileChecked mobileChecked;
 
-    
-    
 
-    [Header("Background Settings")]
-    public GameObject background;
+    [Header("Background Settings")] public GameObject background;
     public Level_Islands level_Islands;
     public float bgSpeed;
 
 
     [Header("Player Settings")]
-    [SerializeField] private GameObject playerPrefab;
+    [SerializeField]
+    private GameObject playerPrefab;
+
     public GameObject player;
-    
+
     public Player_Behavior player_Behavior;
     public Sprite playerSprite;
     [SerializeField] private Transform playerSpawn;
@@ -41,31 +41,34 @@ public class Game_Events : MonoBehaviour
     public Animator canvasAnimator;
 
     [Tooltip("Quando player morre, espera-se um tempo para a chamada da cena de gameover")]
-    [SerializeField] private float timeToCallGameOver;
+    [SerializeField]
+    private float timeToCallGameOver;
 
 
     [Header("Player HUD")]
     // public Canvas playerCanvas;
     // public GameObject missionComplete;
     public float animCanvasWarningTimer;
+
     public float animTimeMissionComplete;
-    [Tooltip ("Variavel de tempo para mudar o estado de gameStarted. Faz referencia ao tempo de animação do player ao iniciar a fase (animação de decolar do player)")]
+
+    [Tooltip(
+        "Variavel de tempo para mudar o estado de gameStarted. Faz referencia ao tempo de animação do player ao iniciar a fase (animação de decolar do player)")]
     public float animTakinoffTimer;
+
     [SerializeField] private UIDocument uiDocument;
     private FaseScreen faseScreen;
     public Action<int> OnPlayerLifeChanged;
     public Action<int> OnPlayerUpgradeChanged;
-    
 
-    [Header("Bullet Settings")]
-    public GameObject playerBulletGO;
+
+    [Header("Bullet Settings")] public GameObject playerBulletGO;
     public GameObject enemyBulletGO;
     public GameObject bulletHitGO;
     public float bulletHitTime;
 
 
-    [Header("Droprate Settings")]
-    public GameObject dropGO;
+    [Header("Droprate Settings")] public GameObject dropGO;
     public Sprite upgradeSprite;
     public Sprite lifeSprite;
     public Sprite shieldSprite;
@@ -74,14 +77,13 @@ public class Game_Events : MonoBehaviour
     public int dropLifeRate;
 
 
-    [Header("Boss Settings")]
-    public GameObject[] bossGO;
+    [Header("Boss Settings")] public GameObject[] bossGO;
     public GameObject currentBossGO;
     public Boss_Behaviour currentBossBehaviour;
+    public Transform bossSpawnPosition;
     public GameObject bossWaypoints;
-    public bool bossInScene = false;
+    public bool bossInScene;
     public Animator bossAnimator;
-    public Vector3 bossSpawnPoint;
 
     [SerializeField] private Vector2 bossDeadPos;
     [SerializeField] private int quantUpgradesToDrop;
@@ -90,25 +92,28 @@ public class Game_Events : MonoBehaviour
     [SerializeField] private float auxTimeForDrop;
     [SerializeField] private bool bossDropUpgradePoints;
     [SerializeField] private List<GameObject> bossDropGOs;
-    
-    [Header("Enemy Settings")]
-    public GameObject enemyPlaneGO;
-    public GameObject enemyGroundGO;
+
+    [Header("Enemy Settings")] public GameObject enemyPlanePrefab;
+    public GameObject enemyGroundPrefab;
     public GameObject respawPlaneEnemys;
     public GameObject spawGroundEnemys;
+    [SerializeField] private GameObject enemyMoveSetWaypoints;
     public int spawnGroundEnemyChance;
 
     [Tooltip("Seta a quantidade maxima de inimigos na ilha")]
     public int maxGroundEnemysInIsland;
+
     public float spawnIslandTime;
     public float timerToRespawnEnemy;
-    private float timer;
+    [SerializeField] private float timer;
     public int enemysToDefeat;
     public int enemysDefeated;
     public float progressBar;
-    public event Action<float> OnEnemyDefeated;
-    
-    
+    public static Action OnEnemyDefeated;
+    public event Action<float> OnUpdateProgressBar;
+    public event Action OnUpdatePointsEarned;
+
+
     public int maxEnemysInScene;
     public int enemysInScene = 0;
     public Sprite[] planeEnemysLVL1;
@@ -118,19 +123,18 @@ public class Game_Events : MonoBehaviour
     public Sprite[] groundEnemysLVL1;
     public Sprite[] groundEnemysLVL2;
     public Sprite[] currentGroundEnemys;
-    
-    
-    [Header("Camera Settings")]
-    public Camera mainCam;
-    [SerializeField]
-    private Camera_Behaviour camera_Behaviour;
-    
-    void Start(){
+
+
+    [Header("Camera Settings")] public Camera mainCam;
+    [SerializeField] private Camera_Behaviour camera_Behaviour;
+
+    void Start()
+    {
         data = GameObject.Find("SO_DATA").GetComponent<SO_Data>();
         player_Sprites = GameObject.Find("Player Sprites").GetComponent<Player_Sprites>();
         gameLevel = data.gameLevel;
 
-        timerToRespawnEnemy = timerToRespawnEnemy - (.5f * gameLevel);
+        // timerToRespawnEnemy = timerToRespawnEnemy - (.5f * gameLevel);
         spawnIslandTime = spawnIslandTime - (.5f * gameLevel);
 
         // Player
@@ -139,22 +143,28 @@ public class Game_Events : MonoBehaviour
         player_Behavior = player.GetComponent<Player_Behavior>();
         player_Behavior.StartPlayer();
         player_Behavior.StartPlayerStatus();
-        
+
         playerAnimator = player.GetComponent<Animator>();
         playerAlive = true;
-        
+
         // UI
         // INITIATE UI ELEMENTS
         faseScreen = uiDocument.gameObject.GetComponent<FaseScreen>();
         faseScreen.InitScreen(data, player_Behavior);
-        PlayerTakingOffAnimation(); 
-        
-        
-        // LISTENERS
-        OnPlayerLifeChanged += (life) => faseScreen.UpdatePlayerLife(life); 
-        OnPlayerUpgradeChanged += (upgrade) => faseScreen.UpdateUpgradePoints(upgrade);
-        OnEnemyDefeated += (progress) => faseScreen.UpdateProgressBar(progress);
-        
+        PlayerTakingOffAnimation();
+
+
+        // EVENT LISTENERS
+        OnPlayerLifeChanged += (life) => faseScreen.UpdatePlayerLife(life);
+        OnPlayerUpgradeChanged += (upgrade) =>
+        {
+            faseScreen.UpdateUpgradePoints(upgrade);
+            data.upgradePoints += 1;
+        };
+        OnEnemyDefeated += EnemyDefeated;
+        OnUpdateProgressBar += (progress) => faseScreen.UpdateProgressBar(progress);
+
+
         // Camera
         mainCam = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         camera_Behaviour = GameObject.FindWithTag("MainCamera").GetComponent<Camera_Behaviour>();
@@ -166,12 +176,16 @@ public class Game_Events : MonoBehaviour
         level_Islands.setGameLevelIsland();
         level_Islands.setIslandTime();
 
-        level_Islands.setSpawnIslandBool(true);    
-        setCurrentPlaneAndGroundEnemys(); 
+        level_Islands.setSpawnIslandBool(true);
+        setCurrentPlaneAndGroundEnemys();
+
+
     }
 
-    private void setCurrentPlaneAndGroundEnemys(){
-        switch(this.gameLevel){
+    private void setCurrentPlaneAndGroundEnemys()
+    {
+        switch (this.gameLevel)
+        {
             case 1:
                 audioSettings.setStageMusic(gameLevel);
                 currentPlaneEnemys = planeEnemysLVL1;
@@ -207,32 +221,37 @@ public class Game_Events : MonoBehaviour
 
 
     private void PlayerTakingOffAnimation()
-    {   
+    {
         gameStarted = false;
-        faseScreen.Animate_TakingOff(animTakinoffTimer, gameLevel, Continue_Before_Timer);
+        StartCoroutine (faseScreen.Animate_TakingOff(animTakinoffTimer, gameLevel));
 
-        void Continue_Before_Timer()
+        StartCoroutine (player_Behavior.Animate_TakingOff(animTakinoffTimer));
+
+        StartCoroutine(Continue_Before_Timer_Callback());
+
+        IEnumerator Continue_Before_Timer_Callback()
         {
+            yield return new WaitForSeconds(animTakinoffTimer);
+
             gameStarted = true;
 
             player_Behavior.setCanMove(gameStarted);
             player_Behavior.setCanShot(gameStarted);
         }
-
-        
     }
 
     void Update()
     {
         moveBackground();
-        remainingEnemys(); 
+        TimerToRespawnEnemys();
         animateDropingUpgradePoints();
     }
 
-    
+
     // ISLAND CONTROLLER ==============================
-    private void moveBackground(){
-        background.transform.Translate( new Vector2(0 , bgSpeed * Time.deltaTime) * -1, Space.Self);
+    private void moveBackground()
+    {
+        background.transform.Translate(new Vector2(0, bgSpeed * Time.deltaTime) * -1, Space.Self);
     }
 
 
@@ -240,8 +259,11 @@ public class Game_Events : MonoBehaviour
     // BOSS CONTROLLER ====================================
     // ====================================================
 
+    #region BOSS_CONTROLLER
+
     // Mission Complete ----------------------------------
-    public void animMissionComplete(Vector2 bossPos, int upgradesToDrop){
+    public void animMissionComplete(Vector2 bossPos, int upgradesToDrop)
+    {
         // Seta variaveis para morte do boss
         bossDeadPos = bossPos;
         quantUpgradesToDrop = upgradesToDrop;
@@ -253,9 +275,10 @@ public class Game_Events : MonoBehaviour
         StartCoroutine(MissionComplete());
     }
 
-    private IEnumerator MissionComplete(){
+    private IEnumerator MissionComplete()
+    {
         audioSettings.setStageClear();
-        
+
         yield return new WaitForSeconds(animTimeMissionComplete);
         // missionComplete.SetActive(false);
         bossDropUpgradePoints = true;
@@ -266,24 +289,30 @@ public class Game_Events : MonoBehaviour
         // bossAnimator.SetBool("dropUpgrade", true);
     }
 
-    private void animateDropingUpgradePoints(){
-        if( bossDropUpgradePoints ){
+    private void animateDropingUpgradePoints()
+    {
+        if (bossDropUpgradePoints)
+        {
             timeForDrop -= Time.deltaTime;
 
-            if (timeForDrop <= 0){
+            if (timeForDrop <= 0)
+            {
                 timeForDrop = auxTimeForDrop;
                 upgradeDropsCount += 1;
 
                 // Esse IF é quando atinge a quantidade maxima de drops, entao ele sai do laço
-                if(upgradeDropsCount >= quantUpgradesToDrop){
+                if (upgradeDropsCount >= quantUpgradesToDrop)
+                {
                     upgradeDropsCount = 0;
                     bossDropUpgradePoints = false;
 
                     player_Behavior.receiveUpgradeList(bossDropGOs, quantUpgradesToDrop);
 
-                    foreach (GameObject d in bossDropGOs) {
+                    foreach (GameObject d in bossDropGOs)
+                    {
                         d.GetComponent<Drop_Behaviour>().catchable = true;
-                        d.GetComponent<Drop_Behaviour>().setSpeed( getDropGO().GetComponent<Drop_Behaviour>().getSpeed() );
+                        d.GetComponent<Drop_Behaviour>()
+                            .setSpeed(getDropGO().GetComponent<Drop_Behaviour>().getSpeed());
                         d.GetComponent<Drop_Behaviour>().setFollowPlayer(player);
                     }
 
@@ -295,93 +324,102 @@ public class Game_Events : MonoBehaviour
         }
     }
 
-    private void dropUpgrade(){
-        float randomX = Random.Range( -1f * currentBossBehaviour.getDropAreaOffset(), currentBossBehaviour.getDropAreaOffset() );
-        float randomY = Random.Range( -1f * currentBossBehaviour.getDropAreaOffset(), currentBossBehaviour.getDropAreaOffset() );
-        Vector2 pos = new Vector2(currentBossGO.transform.position.x + randomX, currentBossGO.transform.position.y + randomY);
-    
+    private void dropUpgrade()
+    {
+        float randomX = Random.Range(-1f * currentBossBehaviour.getDropAreaOffset(),
+            currentBossBehaviour.getDropAreaOffset());
+        float randomY = Random.Range(-1f * currentBossBehaviour.getDropAreaOffset(),
+            currentBossBehaviour.getDropAreaOffset());
+        Vector2 pos = new Vector2(currentBossGO.transform.position.x + randomX,
+            currentBossGO.transform.position.y + randomY);
+
         GameObject bossDropGO = Instantiate(getDropGO(), pos, Quaternion.identity);
 
         // Seta variaveis para o drop do Upgradepoint
         Drop_Behaviour bossDropBehaviour = bossDropGO.GetComponent<Drop_Behaviour>();
         bossDropBehaviour.setSpeed(0);
         bossDropBehaviour.setTagName("Upgrade");
-        bossDropBehaviour.setSprite( getUpgradeSprite() );
+        bossDropBehaviour.setSprite(getUpgradeSprite());
         bossDropBehaviour.catchable = false;
 
         bossDropGOs.Add(bossDropGO);
     }
 
-    public void bossDefeated(){
+    public void bossDefeated()
+    {
+        GameLootLoading gameLootLoading = FindAnyObjectByType<GameLootLoading>();
         // Seta o upgrade points que o player ganhou
         // data.upgradePoints = int.Parse(playerCanvas.GetComponent<Player_Canvas>().upgradeText.text);
 
-        if(gameLevel >= 4){
-            GameLootLoading.LoadScene(GameLootLoading.Scenes_To_Call.Creditos);
+        if (gameLevel >= 4)
+        {
+            gameLootLoading.LoadScene(Scenes_To_Call.Creditos);
             return;
         }
 
         // Aumentar Game Level + 1
         data.gameLevel += 1;
-        
+
         // Aumenta o Hangar arrival
         data.hangarArrivals += 1;
 
         // Voltar para hangar
-        GameLootLoading.LoadScene(GameLootLoading.Scenes_To_Call.Hangar);
+        gameLootLoading.LoadScene(Scenes_To_Call.Hangar);
     }
 
-    // Boss Arriving -----------------------------------------------
- 
-    private void spawnBoss(){
-        
-        GameObject boss = Instantiate (bossGO[gameLevel - 1], bossSpawnPoint, Quaternion.identity);
-        currentBossGO = boss;
-        currentBossBehaviour = currentBossGO.GetComponent<Boss_Behaviour>();
 
+    // Boss Arriving -----------------------------------------------
+
+    private void SpawnBoss(float animTime)
+    {
+        GameObject boss = Instantiate(bossGO[gameLevel - 1], bossSpawnPosition.position, Quaternion.identity);
+        currentBossGO = boss;
+
+        AnimateBossArriving animateBossArriving = boss.GetComponent<AnimateBossArriving>();
+
+        currentBossBehaviour = currentBossGO.GetComponent<Boss_Behaviour>();
         currentBossBehaviour.setGameEvents(this);
         currentBossBehaviour.setWaypoints(this.bossWaypoints);
 
-        if(gameLevel >= 4){
+        animateBossArriving.SetSpanwBossPosition(bossSpawnPosition, animTime);
+
+        if (gameLevel >= 4)
+        {
             level_Islands.destroyAllIslands();
             return;
-        } 
-
-        // Animate BOSS
-        bossAnimator = boss.GetComponent<Animator>();
-        bossAnimator.Play("bossArriving");
-       
+        }
     }
-    private void destroyAllEnemys(){
+
+
+    private void destroyAllEnemys()
+    {
         GameObject[] destroyEnemy = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach(GameObject enemy in destroyEnemy){
+        foreach (GameObject enemy in destroyEnemy)
+        {
             Destroy(enemy);
         }
     }
 
+    private void DestroyBulletsAtScene()
+    {
+        Bullet_Behaviour[] bullets = FindObjectsOfType<Bullet_Behaviour>();
 
-
-
-    // ENEMYS CONTROLLER ============================
-    private void remainingEnemys(){
-        if ( (enemysDefeated >= enemysToDefeat) && !bossInScene){
-            // Player nao pode atirar nesse periodo
-            // Player so pode atirar de novo no final da animação do boss (No script)
-            player_Behavior.setCanShot(false); 
-            
-            bossInScene = true;
-            
-            Animate_Boss_Arriving();  
-            
-        }else if( (enemysInScene < maxEnemysInScene) && !bossInScene && gameStarted)
+        foreach (Bullet_Behaviour bullet in bullets)
         {
-            Spawn_Enemys_Plane();
+            Destroy(bullet.gameObject);
         }
     }
 
-    private void Animate_Boss_Arriving(){
+    #endregion BOSS_CONTROLLER
+
+    // ENEMYS CONTROLLER ============================
+    #region ENEMIES_CONTROLLER
+
+    private void Animate_Boss_Arriving()
+    {
         destroyAllEnemys();
-        
+        DestroyBulletsAtScene();
+
         // Sets the music to Play
         if (getGameLevel() == 4)
         {
@@ -394,206 +432,226 @@ public class Game_Events : MonoBehaviour
 
         level_Islands.setSpawnIslandBool(false);
 
-        
+
         // Animate the Warning message
-        faseScreen.Animate_Warning(animCanvasWarningTimer, spawnBoss);
-        
+        faseScreen.Animate_Warning(animCanvasWarningTimer, SpawnBoss);
     }
 
 
 
-    // private void timerToRespawnEnemys()
-    // {   
-    //     if (timer > 0){
-    //         timer -= Time.deltaTime;
-    //     }else{
-    //         resetTimerToRespawn();
-    //         setEnemys();
-    //     }   
-    // }
-
-    // private void resetTimerToRespawn(){
-    //     timer = timerToRespawnEnemy;
-    // }
-
-    private void Spawn_Enemys_Plane(){
-        float respawnSize = respawPlaneEnemys.transform.localScale.x / 2;
-
-        GameObject enemyPlane = Instantiate(enemyPlaneGO, respawPlaneEnemys.transform.position, new Quaternion(0, 0 , 180, 0)) as GameObject;
-
-        enemyPlane.GetComponent<EnemyPlane>().setSprite( currentPlaneEnemys[ Random.Range(0, currentPlaneEnemys.Length)] );
-        enemysInScene += 1;        
+    private void TimerToRespawnEnemys()
+    {
+        if (timer > 0)
+        {
+            timer -= Time.deltaTime;
+        }
+        else if (!bossInScene && gameStarted)
+        {
+            resetTimerToRespawn();
+            StartCoroutine(Spawn_Enemys_Plane());
+        }
     }
 
-    public void enemyCountdown(){
-        enemysInScene -= 1;
+    private void resetTimerToRespawn()
+    {
+        timer = timerToRespawnEnemy;
+    }
+
+    private IEnumerator Spawn_Enemys_Plane()
+    {
+        // float respawnSize = respawPlaneEnemys.transform.localScale.x / 2;
+        int waypointChild = Random.Range(0, enemyMoveSetWaypoints.transform.childCount);
+
+        int enemiesSpawnNumber = Random.Range(2, 4);
+
+        for (int i = 0; i < enemiesSpawnNumber; i++)
+        {
+            GameObject enemyPlaneGO =
+                Instantiate(enemyPlanePrefab, respawPlaneEnemys.transform.position, new Quaternion(0, 0, 180, 0)) as
+                    GameObject;
+            EnemyPlane enemyPlane = enemyPlaneGO.GetComponent<EnemyPlane>();
+            enemyPlane.setSprite(currentPlaneEnemys[Random.Range(0, currentPlaneEnemys.Length)]);
+
+            // Pega um MoveSet aleatorio 
+            GameObject randomMoveSet = enemyMoveSetWaypoints.transform.GetChild(waypointChild).gameObject;
+            enemyPlane.SetWaypoints(randomMoveSet);
+            enemysInScene += 1;
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    private void EnemyDefeated()
+    {
         enemysDefeated += 1;
 
-        progressBar = (float)enemysDefeated / (float)enemysToDefeat;
-        OnEnemyDefeated?.Invoke(progressBar);
-    }
+        if ((enemysDefeated >= enemysToDefeat) && !bossInScene)
+        {
+            // Player nao pode atirar nesse periodo
+            // Player so pode atirar de novo no final da animação do boss (No script)
+            player_Behavior.setCanShot(false);
 
-    public void resetEnemysDefeated(){
-        this.enemysDefeated = 0;
+            bossInScene = true;
+
+            Animate_Boss_Arriving();
+        }
+        else
+        {
+            progressBar = (float)enemysDefeated / (float)enemysToDefeat;
+            OnUpdateProgressBar?.Invoke(progressBar);
+        }
     }
+    #endregion ENEMIES_CONTROLLER
 
 
     // PLAYER CONTROLLER =================================
-   
-    public bool playerIsAlive(){
+    #region PLAYER_CONTROLLER
+    public bool playerIsAlive()
+    {
         return this.playerAlive;
     }
-    public void playerDied(){
+
+    public void playerDied()
+    {
         playerAlive = false;
-        StartCoroutine( CallGameOver() );
+        StartCoroutine(CallGameOver());
     }
-    
-    private IEnumerator CallGameOver(){
+
+    private IEnumerator CallGameOver()
+    {
         yield return new WaitForSeconds(timeToCallGameOver);
         audioSettings.setGameoverMusic();
         // player_Behavior.player_Canvas.gameOver();
     }
 
-    // public FixedJoystick getJoystick()
-    // {
-    //     return this.joystick;
-    // }
+    #endregion PLAYER_CONTROLLER
 
 
-    // MOBILE CHECKED ======================================
-
-    // public void setMobileChecked( MobileChecked mc)
-    // {
-    //     this.mobileChecked = mc;
-    // }
-
-    // public void toggleMobile(bool isMobile)
-    // {
-    //     if( this.mobileChecked )
-    //     {
-    //         playerCanvas.GetComponent<Player_Canvas>().isMobilePanel.SetActive(!isMobile);
-    //     }
-    // }
-
-    // public bool getIsMobile()
-    // {   
-    //     print( mobileChecked.getIsMobile() );
-    //     return this.mobileChecked.getIsMobile();
-    // }
-
-    // GETTERS ============================================
-    public GameObject getPlayer(){
+    // GETTERS ===========================================
+    #region GETTERS
+    public GameObject getPlayer()
+    {
         return this.player;
     }
 
-    public GameObject getPlaneEnemy(){
-        return this.enemyPlaneGO;
+    public GameObject getPlaneEnemy()
+    {
+        return this.enemyPlanePrefab;
     }
-    public int getGameLevel(){
+
+    public int getGameLevel()
+    {
         return this.gameLevel;
     }
 
 
-    public Camera getMainCam(){
+    public Camera getMainCam()
+    {
         return this.mainCam;
     }
 
-    public Camera_Behaviour GetCameraBehaviour(){
+    public Camera_Behaviour GetCameraBehaviour()
+    {
         return this.camera_Behaviour;
     }
 
-    public GameObject getEnemyBullet(){
+    public GameObject getEnemyBullet()
+    {
         return this.enemyBulletGO;
     }
 
-    public GameObject getRespawn(){
+    public GameObject getRespawn()
+    {
         return this.respawPlaneEnemys;
     }
 
-    public GameObject getPlayerBullet(){
+    public GameObject getPlayerBullet()
+    {
         return this.playerBulletGO;
     }
-    public GameObject getBulletHitGO(){
+
+    public GameObject getBulletHitGO()
+    {
         return this.bulletHitGO;
     }
 
-    public float getBulletHitTime(){
+    public float getBulletHitTime()
+    {
         return this.bulletHitTime;
     }
 
-    public GameObject getSpawnGroundEnemysGO(){
+    public GameObject getSpawnGroundEnemysGO()
+    {
         return this.spawGroundEnemys;
     }
 
-    public GameObject getBackgorundGO(){
+    public GameObject getBackgorundGO()
+    {
         return this.background;
     }
 
-    public int getSpawnGroundEnemyChance(){
+    public int getSpawnGroundEnemyChance()
+    {
         return this.spawnGroundEnemyChance;
     }
 
-    public GameObject getEnemyGroundGO(){
-        return this.enemyGroundGO;
+    public GameObject getEnemyGroundPrefab()
+    {
+        return this.enemyGroundPrefab;
     }
 
-    public Sprite[] getCurrentPlaneEnemys(){
-        return this.currentPlaneEnemys;
-    }
-
-    public Sprite[] getCurrentGroundEnemys(){
+    public Sprite[] getCurrentGroundEnemys()
+    {
         return this.currentGroundEnemys;
     }
 
-    public int getMaxGroundEnemysInIsland(){
+    public int getMaxGroundEnemysInIsland()
+    {
         return this.maxGroundEnemysInIsland;
     }
 
-    public int getEnemysToSpawnCheckpoint(){
-        return this.enemysToSpawnCheckpoint;
-    }
-
-    public int getEnemysDefeated(){
-        return this.enemysDefeated;
-    }
-
-    // public Animator getCanvasAnimator(){
-    //     return this.canvasAnimator;
-    // }
-
-    public GameObject getBossGO(){
+    public GameObject getBossGO()
+    {
         return this.currentBossGO;
     }
 
-    public AudioSettings getAudioSettings(){
+    public AudioSettings getAudioSettings()
+    {
         return this.audioSettings;
     }
 
-    public float getSpawnIslandTime(){
+    public float getSpawnIslandTime()
+    {
         return this.spawnIslandTime;
     }
 
-    public SO_Data getData(){
+    public SO_Data getData()
+    {
         return this.data;
     }
 
-    public Sprite getPlayerSprite(){
-        return this.playerSprite;
-    }
+    #endregion GETTERS
 
     // ========== Drops ==========
-    public GameObject getDropGO(){
+    #region DROPS
+    public GameObject getDropGO()
+    {
         return this.dropGO;
     }
-    public Sprite getUpgradeSprite(){
+
+    public Sprite getUpgradeSprite()
+    {
         return this.upgradeSprite;
     }
 
-    public Sprite getLifeSprite(){
+    public Sprite getLifeSprite()
+    {
         return this.lifeSprite;
     }
 
-    public Sprite getShieldSprite(){
+    public Sprite getShieldSprite()
+    {
         return this.shieldSprite;
     }
+
+    #endregion DROPS
 }
