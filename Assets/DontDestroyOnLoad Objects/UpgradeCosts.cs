@@ -4,48 +4,50 @@ using UnityEngine;
 
 // [CreateAssetMenu(fileName = "UpgradeCosts", menuName = "Create UpgradeCosts", order = 3)]
 public class UpgradeCosts : MonoBehaviour
-{   
-    public int maxItensSold;
-
+{
     [Header("Plane")]
     public int fuselagemCost;
-    public bool fuselagemSold;
-    public int fuselagemNextCost;
 
 
     [Header("Bomb ")]
     public int raioCost;
     public float raioUpgrade;
-    public bool raioSold;
-    public int raioInitialCost;
-    public int raioNextCost;
+
+    
 
     [Header("Speed")]
     public int speedCost;
     public float speedUpgrade;
-    public bool speedSold;
-    public int speedNextCost;
+
 
     [Header("Fire rate")]
     public int firerateCost;
     public float firerateUpgrade;
-    public bool firerateSold;
-    public int firerateNextCost;
-
-
-    private Dictionary<UpgradeType, int> UpgradesNextCost;
   
+ 
+    private Dictionary<UpgradeType, int> UpgradesNextCost;
+
+    public static UpgradeCosts Instance;
+
+    void Awake()
+    {
+        // Se já existe uma instância diferente, destrói esse novo
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        // Define como instância única
+        Instance = this;
+
+        // Impede que seja destruído ao trocar de cena
+    }
+
     void Start()
     {
-        UpgradesNextCost = new ()
-        {
-            { UpgradeType.NextPlane, fuselagemNextCost },
-            { UpgradeType.Bomb, raioNextCost },
-            { UpgradeType.Speed, speedNextCost },
-            { UpgradeType.FireRate, firerateNextCost },
-        };
-        
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
+      
     }
 
     public int GetNextUpgrade(UpgradeType upgradeType)

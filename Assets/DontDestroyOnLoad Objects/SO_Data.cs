@@ -11,12 +11,13 @@ public class SO_Data : MonoBehaviour
     public Action<int> OnMoneyChanged;
     private Dictionary<UpgradeType, Action> functionsDictionary = new();
 
-   
+
 
 
     #region PLAYER_VARIABLES
 
-    [Header("Game Level")] [SerializeField]
+    [Header("Game Level")]
+    [SerializeField]
     private int myGameLevel;
 
     public int gameLevel
@@ -25,24 +26,8 @@ public class SO_Data : MonoBehaviour
         set { myGameLevel = value; }
     }
 
-    [Header("Hangar Arrivals")] [SerializeField]
-    private int myHangarArrivals;
-
-    public int hangarArrivals
-    {
-        get { return this.myHangarArrivals; }
-        set { myHangarArrivals = value; }
-    }
-
-    [SerializeField] private bool myPlayerVisitedHangar;
-
-    public bool playerVisitedHangar
-    {
-        get { return this.myPlayerVisitedHangar; }
-        set { myPlayerVisitedHangar = value; }
-    }
-
-    [Header("Player Level")] [SerializeField]
+    [Header("Player Level")]
+    [SerializeField]
     private int myPlayerLevel;
 
     public int playerLevel
@@ -51,7 +36,7 @@ public class SO_Data : MonoBehaviour
         set { myPlayerLevel = value; }
     }
 
-    [Header("Upgrade")] [SerializeField] private int myUpgradePoints;
+    [Header("Upgrade")][SerializeField] private int myUpgradePoints;
 
     public int upgradePoints
     {
@@ -59,7 +44,7 @@ public class SO_Data : MonoBehaviour
         set { myUpgradePoints = value; }
     }
 
-    [Header("Life")] [SerializeField] private int myPlayerLife;
+    [Header("Life")][SerializeField] private int myPlayerLife;
 
     public int playerLife
     {
@@ -67,7 +52,7 @@ public class SO_Data : MonoBehaviour
         set { myPlayerLife = value; }
     }
 
-    [Header("Speed")] [SerializeField] private float myPlayerSpeed;
+    [Header("Speed")][SerializeField] private float myPlayerSpeed;
 
     public float playerSpeed
     {
@@ -75,7 +60,7 @@ public class SO_Data : MonoBehaviour
         set { myPlayerSpeed = value; }
     }
 
-    [Header("Damage")] [SerializeField] private int myPlayerDamage;
+    [Header("Damage")][SerializeField] private int myPlayerDamage;
 
     public int playerDamage
     {
@@ -83,7 +68,7 @@ public class SO_Data : MonoBehaviour
         set { myPlayerDamage = value; }
     }
 
-    [Header("Firerate")] [SerializeField] private float myPlayerFireRate;
+    [Header("Firerate")][SerializeField] private float myPlayerFireRate;
 
     public float playerFireRate
     {
@@ -91,7 +76,7 @@ public class SO_Data : MonoBehaviour
         set { myPlayerFireRate = value; }
     }
 
-    [Header("Bomb")] [SerializeField] private float myPlayerBombArea;
+    [Header("Bomb")][SerializeField] private float myPlayerBombArea;
 
     public float playerBombArea
     {
@@ -116,11 +101,25 @@ public class SO_Data : MonoBehaviour
 
     #endregion PLAYER_VARIABLES
 
+    public static SO_Data Instance;
 
+    void Awake()
+    {
+        // Se já existe uma instância diferente, destrói esse novo
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        // Define como instância única
+        Instance = this;
+
+        // Impede que seja destruído ao trocar de cena
+    }
     void Start()
     {
-        DontDestroyOnLoad(this.gameObject);
-
+        DontDestroyOnLoad(gameObject);
         functionsDictionary = new Dictionary<UpgradeType, Action>
         {
             { UpgradeType.NextPlane, UpgradeNextPlane },
@@ -161,7 +160,7 @@ public class SO_Data : MonoBehaviour
 
     #endregion PRIVATE_UPGRADE_FUNCTIONS
 
-    
+
     public bool TryPurchase(UpgradeType upgradeType, int cost)
     {
         if (upgradePoints >= cost)

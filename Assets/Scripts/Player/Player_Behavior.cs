@@ -36,8 +36,7 @@ public class Player_Behavior : MonoBehaviour
     // [SerializeField]
     private bool mayShot = true;
 
-    // [SerializeField]
-    private bool canShot = false;
+    [SerializeField] private bool canShot = false;
 
     // [SerializeField]
     public float fireRate;
@@ -54,39 +53,33 @@ public class Player_Behavior : MonoBehaviour
     private float sizeSprite;
 
     [Header("Bomb Settings")]
-    [SerializeField]
-    private Image bombImage;
-
     [SerializeField] private GameObject bombGO;
-
     [SerializeField] private GameObject bombColliderGO;
-
     [SerializeField] private bool bombEnable;
+    [SerializeField] private float bombSpecialFull;
+    [SerializeField] private float bombSpecial;
+    [SerializeField] private float bombFillRate;
 
-    public float bombSpecialFull;
-    public float bombSpecial;
-    public float bombFillRate;
-
-    // [Header("Upgrade Settings")]
-    // [SerializeField]
+    [Header("Upgrade Settings")]
+    [SerializeField]
     private int upgradePoints;
 
 
-    // [Tooltip ("Lista recebida quando o boss é morto")]
-    // [SerializeField] 
+    [Tooltip("Lista recebida quando o boss é morto")]
+    [SerializeField]
     private List<GameObject> dropsGO;
 
-    // [Tooltip ("Quantidade de upgrades que tem q receber do boss")]
-    // [SerializeField]
+    [Tooltip("Quantidade de upgrades que tem q receber do boss")]
+    [SerializeField]
     private int upgradePointsToReceive;
+    [SerializeField] private int upgradePointsReceived = 0;
 
     [Tooltip("Tempo para chamar o Hangar depois que boss morre")]
     public float timeToCallHangar;
 
 
     [Header("Shield Settings")]
-    [SerializeField]
-    private AudioClip shieldSound;
+    [SerializeField] private AudioClip shieldSound;
 
     [SerializeField] private bool shieldUp = false;
 
@@ -104,16 +97,13 @@ public class Player_Behavior : MonoBehaviour
     [SerializeField] private float thisShotTime = 0;
 
     [Tooltip("Divisão entre valores que vai de 0 a 1 e completa o Fill_Amount da imagem do Escudo")]
-    [SerializeField]
-    private float thisShieldTime;
+    [SerializeField] private float thisShieldTime;
 
     [Tooltip("Tempo que aumenta até acabar o tempo do Escudo")]
-    [SerializeField]
-    private float endShield = 0;
+    [SerializeField] private float endShield = 0;
 
     [Tooltip("Tempo máximo do Escudo")]
-    [SerializeField]
-    private float shieldTime;
+    [SerializeField] private float shieldTime;
 
 
     // [Header("Move Settings")]
@@ -142,9 +132,6 @@ public class Player_Behavior : MonoBehaviour
     private float sideways;
 
     [Header("Camera Settings")]
-    [SerializeField]
-    private Camera mainCam;
-
     [SerializeField] private Camera_Behaviour camera_Behaviour;
     [SerializeField] private float upBound;
     [SerializeField] private float downBound;
@@ -169,10 +156,9 @@ public class Player_Behavior : MonoBehaviour
         mySprite = player_Sprites.playerSprite;
         setSprite();
 
-        mainCam = game_Events.getMainCam();
         camera_Behaviour = game_Events.GetCameraBehaviour();
         bullet = game_Events.getPlayerBullet();
-       
+
 
         bombEnable = data.playerBombEnable;
 
@@ -194,6 +180,15 @@ public class Player_Behavior : MonoBehaviour
         animator.Play("playerTakeOff");
         yield return new WaitForSeconds(animTime);
     }
+
+    public IEnumerator Animate_StageCompleted(float animTime)
+    {
+        Animator animator = gameObject.GetComponent<Animator>();
+        animator.Play("PlayerStageCompleted");
+        yield return new WaitForSeconds(animTime);
+    }
+
+
 
     private void getCameraBounds()
     {
@@ -391,14 +386,10 @@ public class Player_Behavior : MonoBehaviour
     // ================================================
     // BOMB BEHAVIOUR ================================
     // ================================================
-    private void updateBombImage()
-    {
-        bombImage.fillAmount = bombSpecial / bombSpecialFull;
-    }
-
+   
     private void checkBomb()
     {
-        if ((bombSpecial >= bombSpecialFull))
+        if (bombSpecial >= 1f ) // 1f é o valor maximo, equivale a 100
         {
             if (Input.GetButtonDown("Fire2") && canShot && bombEnable)
             {
@@ -408,12 +399,14 @@ public class Player_Behavior : MonoBehaviour
         }
     }
 
-    public void fillBombSpecial(float bombFill)
+    public void fillBombSpecial()
     {
         // Se bomba nao estiver habilitada, entao retorna
         if (!bombEnable) return;
 
-        bombSpecial += bombFill * bombFillRate;
+        bombSpecial +=  bombFillRate / bombSpecialFull;
+
+        FaseScreen.OnBombProgressFill?.Invoke(bombSpecial);
     }
 
     private void useBomb()
@@ -429,12 +422,15 @@ public class Player_Behavior : MonoBehaviour
         GameObject bombCollisor = Instantiate(bombColliderGO, mousePos, Quaternion.identity);
 
         bomb.GetComponent<Bomb_Behaviour>().setLocation(mousePos, bombCollisor);
+        
+        // resetBombSpecial();
     }
 
     private void resetBombSpecial()
     {
         this.bombSpecial = 0;
-        // this.bombSpecial = bombSpecialFull;
+        
+        FaseScreen.OnBombProgressFill?.Invoke(bombSpecial);
     }
 
 
@@ -502,30 +498,29 @@ public class Player_Behavior : MonoBehaviour
     private void updateThisUpgradeText() => game_Events.OnPlayerUpgradeChanged?.Invoke(this.upgradePoints);
 
     // Vindo do boss ==========
-    public void receiveUpgradeList(List<GameObject> list, int quant)
+    public void SetReceiveUpgradeList(int quantUpgradeToReceive)
     {
-        this.dropsGO = list;
-        this.upgradePointsToReceive = quant;
+        this.upgradePointsToReceive = quantUpgradeToReceive;
     }
 
-    public void upgradeReceived()
+    public void UpgradeReceived()
     {
-        int maxUpgradeReceived = upgradePointsToReceive;
 
-        if (upgradePointsToReceive >= maxUpgradeReceived)
+        upgradePointsReceived += 1;
+
+        if (upgradePointsToReceive <= upgradePointsReceived)
         {
             // Chamar funcção no gameEvents para mudar de tela
+            // game_Events.OnCallHangar?.Invoke();
+            canMove = false;
+            canShot = false;
 
-            StartCoroutine(CallBossDead());
+            // Transfere os Upgrade Points do player para o SO_DATA
+            data.upgradePoints = this.upgradePoints;
+
+            GetComponent<AnimatePlayerOnStageCleared>().enabled = true;
         }
 
-        upgradePointsToReceive += 1;
-    }
-
-    private IEnumerator CallBossDead()
-    {
-        yield return new WaitForSeconds(timeToCallHangar);
-        game_Events.bossDefeated();
     }
 
     // ================================================
@@ -586,6 +581,11 @@ public class Player_Behavior : MonoBehaviour
     private void resetShieldEnd()
     {
         endShield = 0f;
+    }
+
+    public void CallHangarScreen()
+    {
+        game_Events.OnCallHangar?.Invoke();
     }
 
 

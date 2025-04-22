@@ -45,23 +45,22 @@ public class Boss_Behaviour : MonoBehaviour
 
     [Header("Enemywaves Settings")]
     [SerializeField]
-    private Transform bossWaveTransform;
+    private GameObject bossWaveTransform;
 
     [SerializeField] private List<Transform> bossWaveTransformChildrens;
     [SerializeField] private List<GameObject> enemyPlanesWave;
     [SerializeField] private bool spawningWave;
 
+    void Awake()
+    {
+        boss4Spawn = GameObject.FindGameObjectWithTag("Boss4Spawn").transform;
+    }
 
     void Start()
     {
         getChildrens();
         setTurretLifeByBoss();
         setBossWaveTransform();
-
-        if (this.gameObject.name.Contains("Boss 4"))
-        {
-            boss4Spawn = GameObject.FindGameObjectWithTag("Boss4Spawn").transform;
-        }
     }
 
 
@@ -120,7 +119,7 @@ public class Boss_Behaviour : MonoBehaviour
     void Update()
     {
         move();
-        waveDestroyed();
+        // waveDestroyed();
         changeAplhaForStealthMode();
     }
 
@@ -371,29 +370,38 @@ public class Boss_Behaviour : MonoBehaviour
     // Vindo do Start(), checa se o objeto é o Boss 2
     private void setBossWaveTransform()
     {
+
+
         if (gameObject.name.Contains("Boss 2") || gameObject.name.Contains("Boss 4"))
         {
-            this.bossWaveTransform = GameObject.FindGameObjectWithTag("Boss2SpawnWaves").GetComponent<Transform>();
+            this.bossWaveTransform = GameObject.FindGameObjectWithTag("Boss2SpawnWaves");
 
-            int childCount = bossWaveTransform.transform.childCount;
-
-            Transform[] childrens = bossWaveTransform.transform.GetComponentsInChildren<Transform>();
-
-            for (int i = 1; i < childrens.Length; i++)
+            if (this.bossWaveTransform == null)
             {
-                bossWaveTransformChildrens.Add(childrens[i]);
+                Debug.LogError("Objeto com a tag 'Boss2SpawnWaves' não foi encontrado!");
+                return;
+            }
+
+            Debug.Log(bossWaveTransform.name);
+            Debug.Log(bossWaveTransform.transform.childCount);
+
+            for (int i = 0; i < bossWaveTransform.transform.childCount; i++)
+            {
+                Transform child = bossWaveTransform.transform.GetChild(i);
+                bossWaveTransformChildrens.Add(child);
             }
         }
+
     }
 
     private void checkSpawnWave()
     {
         if (spawningWave && bossArrived) return;
 
-        spawnWave();
+        StartCoroutine(SpawnWave());
     }
 
-    private void spawnWave()
+    private IEnumerator SpawnWave()
     {
         bossWaveTransform.gameObject.transform.position = new Vector2(this.gameObject.transform.position.x,
             bossWaveTransform.gameObject.transform.position.y);
@@ -405,32 +413,27 @@ public class Boss_Behaviour : MonoBehaviour
                     new Quaternion(0, 0, 180, 0)) as GameObject;
             enemyBossPlane.GetComponent<Enemy_Behaviour>().setFromBoss();
             enemyPlanesWave.Add(enemyBossPlane);
-        }
 
+            StartCoroutine(ShotPlanesFromBoss(enemyBossPlane));
+
+        }
         spawningWave = true;
+
+        yield return new WaitForSeconds(6f);
+
+
     }
 
-    private void waveDestroyed()
+    public IEnumerator ShotPlanesFromBoss(GameObject enemyBossPlane)
     {
-        if (spawningWave && (enemyPlanesWave.Count > 0))
-        {
-            int count = 0;
+        Destroy(enemyBossPlane, 15f);
+        enemyBossPlane?.GetComponent<EnemyPlane>()?.Shot();
 
-            for (int i = 0; i < enemyPlanesWave.Count; i++)
-            {
-                if (enemyPlanesWave[i] == null)
-                {
-                    count += 1;
-                }
-
-                if (enemyPlanesWave.Count == count)
-                {
-                    spawningWave = false;
-                    enemyPlanesWave.Clear();
-                }
-            }
-        }
+        yield return new WaitForSeconds(3f);
+        spawningWave = false;
     }
+
+
 
 
     // ===========================
@@ -455,5 +458,10 @@ public class Boss_Behaviour : MonoBehaviour
     public Game_Events getGameEvents()
     {
         return this.game_Events;
+    }
+
+    public Sprite GetBossSprite()
+    {
+        return gameObject.GetComponent<SpriteRenderer>().sprite;
     }
 }

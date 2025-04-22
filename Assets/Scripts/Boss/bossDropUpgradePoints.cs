@@ -35,7 +35,7 @@ public class bossDropUpgradePoints : StateMachineBehaviour
         timeForDrop = bossBehaviour.getTimeForDrop();
         auxTimeForDrop = timeForDrop;
 
-        dropGO = events.getDropGO();
+        dropGO = events.GetDropGO();
         drop = dropGO.GetComponent<Drop_Behaviour>();
         dropOriginalSpeed = drop.getSpeed();
         drop.setSpeed(0);
@@ -83,11 +83,12 @@ public class bossDropUpgradePoints : StateMachineBehaviour
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        Debug.Log("Drop Upgrade Points From BossDropUpgradePoints");
         GameObject playerGO = events.getPlayer();
         Player_Behavior player = playerGO.GetComponent<Player_Behavior>();
 
         
-        player.receiveUpgradeList(dropsGO, dropUpgradePoints);
+        // player.receiveUpgradeList(dropsGO, dropUpgradePoints);
 
         foreach (GameObject d in dropsGO) {
             d.GetComponent<Drop_Behaviour>().setSpeed(dropOriginalSpeed);

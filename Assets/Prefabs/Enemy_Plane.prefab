@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 8868361215081882462}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -1, w: 0}
-  m_LocalPosition: {x: 7.102247, y: 13.081, z: -0.48751813}
+  m_LocalPosition: {x: 7.102247, y: 13.081, z: 12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -189,15 +189,18 @@ MonoBehaviour:
   rightBound: 0
   leftBound: 0
   enterCamView: 0
-  playerIsInBound: 0
   enemyType: Plane
   life: 1
-  speed: 0.1
+  speed: 0.3
   level: 1
   damage: 1
   fireRate: 2
   thisFireRate: 0
   timer: 4
+  angle: 0
   waypoints: []
   t: 0
   shoted: 0
+  shotRange: 0
+  rotationDuration: 0.7
+  rotationDegree: 35

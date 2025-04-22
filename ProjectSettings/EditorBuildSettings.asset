@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/UI/Domains/MainMenu/MainMenu.unity
     guid: 8036affc03985be4880f564e9ab31dda
-  - enabled: 1
+  - enabled: 0
     path: Assets/UI/Domains/Loading/LoadingScene.unity
     guid: 8897eb3cd4fba8d4a8f073df3790e1bc
   - enabled: 1
@@ -18,7 +18,13 @@ EditorBuildSettings:
     path: Assets/UI/Domains/Fase/Fase.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/Creditos.unity
+    path: Assets/UI/Domains/Creditos/Creditos.unity
     guid: d0fead82485fb7947bdc00dbae0dafde
+  - enabled: 1
+    path: Assets/UI/Domains/GatesLoadingScene/GatesLoadingScene.unity
+    guid: f97239c32409a7846a3b0caca3babe5f
+  - enabled: 1
+    path: Assets/UI/Domains/GameOver/GameOver.unity
+    guid: 5231cae852f15f1489ce22e530a77e2f
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

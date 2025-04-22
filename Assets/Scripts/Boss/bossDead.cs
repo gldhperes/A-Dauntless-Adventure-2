@@ -34,7 +34,7 @@ public class bossDead : StateMachineBehaviour
             boss.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
         }
 
-        events.animMissionComplete(  boss.transform.position, bossBehaviour.getDropUpgradePoints());
+        events.AnimMissionComplete(  boss.transform.position, bossBehaviour.getDropUpgradePoints());
 
         boss.SetActive(false);     
     }

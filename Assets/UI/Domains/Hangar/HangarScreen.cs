@@ -5,10 +5,13 @@ using UnityEngine.UIElements;
 
 public class HangarScreen : MonoBehaviour
 {
-    [Header("Components")] [SerializeField]
+    [Header("Components")]
+    [SerializeField]
     private UIDocument uiDocument;
 
     private VisualElement screen;
+    private VisualElement lockedItem;
+    [SerializeField] private VisualTreeAsset lockedItemTemplate;
 
     [SerializeField] private Hangar_Control hangarControl;
 
@@ -22,6 +25,8 @@ public class HangarScreen : MonoBehaviour
         { UpgradeType.FireRate, (null, null) }
     };
 
+    #region START_FUNCTIONS
+
     void Start()
     {
         uiDocument = GetComponent<UIDocument>();
@@ -30,6 +35,7 @@ public class HangarScreen : MonoBehaviour
         InitScreenTexts();
         InitButtonsListeners();
         InitStatusDict();
+
     }
 
     private void InitScreenTexts()
@@ -64,8 +70,6 @@ public class HangarScreen : MonoBehaviour
         bombValue.text = hangarControl.data.playerBombArea.ToString();
 
 
-        // UPGRADE SHOP CONTAINER
-
         //NEXT PLANE UPGRADE
         var nextPlaneImg = screen.Q<VisualElement>("NextPlaneImg");
 
@@ -80,6 +84,8 @@ public class HangarScreen : MonoBehaviour
         else
         {
             // BLOCK playerLvl
+            AddLockedItemToContainer("NextPlaneUpgradeButton");
+
         }
 
         // BOMB UPGRADE
@@ -131,12 +137,31 @@ public class HangarScreen : MonoBehaviour
     }
 
 
+    public void AddLockedItemToContainer(string containerName)
+    {
+        lockedItem = lockedItemTemplate.CloneTree();
+        lockedItem.style.position = Position.Absolute;
+        lockedItem.style.width = new StyleLength(Length.Percent(100));
+        lockedItem.style.height = new StyleLength(Length.Percent(100));
+
+
+
+        // Add it to the BombContainer
+        var Container = screen.Q<VisualElement>(containerName);
+        Container.SetEnabled(false);
+        Container.Add(lockedItem);
+        
+        
+    }
+
+    #endregion START_FUNCTIONS
+
+
+    #region UPDATE_STATUS
     private void BuyUpgrade(UpgradeType upgradeName)
     {
         hangarControl.TryBuyUpgrade(upgradeName);
     }
-
-    #region UPDATE_STATUS
 
     public void UpdatePlayerStatusBar(UpgradeType upgradetype)
     {
@@ -155,19 +180,12 @@ public class HangarScreen : MonoBehaviour
         maxLifeValue.text = hangarControl.data.playerLife.ToString();
 
         var planeImg = screen.Q<VisualElement>("PlaneImg");
+        Sprite currentPlane = hangarControl.player_Sprites.playerSprite;
+        planeImg.style.backgroundImage = new StyleBackground(currentPlane);
+
+        var nextPlaneImg = screen.Q<VisualElement>("NextPlaneImg");
         Sprite nextPlane = hangarControl.player_Sprites.GetNextPlayerPlane();
-        planeImg.style.backgroundImage = new StyleBackground(nextPlane);
-        
-        // planeImg.schedule.Execute(() =>
-        // {
-        //     planeImg.style.backgroundImage = new StyleBackground(nextPlane);
-        // }).StartingIn(50);
-        
-        // var nextPlaneImg = screen.Q<VisualElement>("NextPlaneImg");
-        // nextPlaneImg.schedule.Execute(() =>
-        // {
-        //     nextPlaneImg.style.backgroundImage = new StyleBackground(hangarControl.player_Sprites.GetNextPlayerPlane());
-        // });
+        nextPlaneImg.style.backgroundImage = new StyleBackground(nextPlane);
     }
 
     private void UpdateBomb()
@@ -191,6 +209,8 @@ public class HangarScreen : MonoBehaviour
     #endregion UPDATE_STATUS
 
 
+
+    #region ACTIONS 
     private void UpdatePlayerUpgradePointsUI(int upgradePoints)
     {
         var upgradeValue = screen.Q<Label>("UpgradeValue");
@@ -201,4 +221,8 @@ public class HangarScreen : MonoBehaviour
     {
         buttons[upgradeType].costLabel.text = $"{hangarControl.GetNextUpgradeCost(upgradeType)}";
     }
+    #endregion ACTIONS
+
+
+ 
 }

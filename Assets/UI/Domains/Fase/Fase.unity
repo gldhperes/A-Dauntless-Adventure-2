@@ -176,7 +176,7 @@ GameObject:
   - component: {fileID: 559839545}
   m_Layer: 0
   m_Name: Boss2SpawnWaves 2
-  m_TagString: Boss2SpawnWaves
+  m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -280,8 +280,12 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1100408153}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6443333629593337120, guid: f5cd643ba645f6645828d575406911de, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6443333629593337120, guid: f5cd643ba645f6645828d575406911de, type: 3}
       propertyPath: myPlayerSprite
       value: 
@@ -305,6 +309,10 @@ PrefabInstance:
     - target: {fileID: 6443333629593337122, guid: f5cd643ba645f6645828d575406911de, type: 3}
       propertyPath: m_Name
       value: Player Sprites
+      objectReference: {fileID: 0}
+    - target: {fileID: 6443333629593337122, guid: f5cd643ba645f6645828d575406911de, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6443333629593337123, guid: f5cd643ba645f6645828d575406911de, type: 3}
       propertyPath: m_RootOrder
@@ -355,11 +363,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5cd643ba645f6645828d575406911de, type: 3}
---- !u!4 &584748270 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6443333629593337123, guid: f5cd643ba645f6645828d575406911de, type: 3}
-  m_PrefabInstance: {fileID: 584748269}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &625124443
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,7 +439,7 @@ GameObject:
   - component: {fileID: 637140327}
   m_Layer: 0
   m_Name: Boss2SpawnWaves 4
-  m_TagString: Boss2SpawnWaves
+  m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -564,7 +567,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1100408153
 Transform:
   m_ObjectHideFlags: 0
@@ -577,11 +580,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 584748270}
-  - {fileID: 1308601322}
-  - {fileID: 1509469934}
-  - {fileID: 1155205890}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1155205889
@@ -614,7 +613,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1100408153}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1155205891
 MonoBehaviour:
@@ -639,7 +638,7 @@ GameObject:
   - component: {fileID: 1294175125}
   m_Layer: 0
   m_Name: Boss2SpawnWaves 5
-  m_TagString: Boss2SpawnWaves
+  m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -696,11 +695,15 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1100408153}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 6443333629593337122, guid: 813fa7405f57c5b4cb484be3e4931097, type: 3}
       propertyPath: m_Name
       value: UpgradeCosts
+      objectReference: {fileID: 0}
+    - target: {fileID: 6443333629593337122, guid: 813fa7405f57c5b4cb484be3e4931097, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6443333629593337123, guid: 813fa7405f57c5b4cb484be3e4931097, type: 3}
       propertyPath: m_RootOrder
@@ -751,6 +754,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7717382249343444447, guid: 813fa7405f57c5b4cb484be3e4931097, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7717382249343444447, guid: 813fa7405f57c5b4cb484be3e4931097, type: 3}
       propertyPath: speedCost
       value: 7
       objectReference: {fileID: 0}
@@ -779,11 +786,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 813fa7405f57c5b4cb484be3e4931097, type: 3}
---- !u!4 &1308601322 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6443333629593337123, guid: 813fa7405f57c5b4cb484be3e4931097, type: 3}
-  m_PrefabInstance: {fileID: 1308601321}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1314713783
 GameObject:
   m_ObjectHideFlags: 0
@@ -1834,7 +1836,7 @@ Transform:
   m_GameObject: {fileID: 1430948503}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 25, z: -0.23403248}
+  m_LocalPosition: {x: 0, y: 30.8, z: -0.23403248}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1914,27 +1916,31 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1100408153}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5130964248282165893, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -5130964248282165893, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
       propertyPath: myGameLevel
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5130964248282165893, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
       propertyPath: myPlayerLife
-      value: 3
+      value: 99
       objectReference: {fileID: 0}
     - target: {fileID: -5130964248282165893, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
       propertyPath: myPlayerLevel
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -5130964248282165893, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
       propertyPath: myPlayerSpeed
-      value: 6
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -5130964248282165893, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
       propertyPath: myPlayerDamage
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -5130964248282165893, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
       propertyPath: myUpgradePoints
@@ -1942,15 +1948,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5130964248282165893, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
       propertyPath: myPlayerBombArea
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5130964248282165893, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
       propertyPath: myPlayerFireRate
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: -5130964248282165893, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
+      propertyPath: myPlayerBombEnable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6443333629593337122, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
       propertyPath: m_Name
       value: SO_DATA
+      objectReference: {fileID: 0}
+    - target: {fileID: 6443333629593337122, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6443333629593337123, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
       propertyPath: m_RootOrder
@@ -2001,11 +2015,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
---- !u!4 &1509469934 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6443333629593337123, guid: 43901759276a9164681bf1453c89ecfb, type: 3}
-  m_PrefabInstance: {fileID: 1509469933}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1519847739
 GameObject:
   m_ObjectHideFlags: 0
@@ -11445,7 +11454,7 @@ GameObject:
   - component: {fileID: 1819383970}
   m_Layer: 0
   m_Name: Boss2SpawnWaves 3
-  m_TagString: Boss2SpawnWaves
+  m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11630,7 +11639,7 @@ GameObject:
   - component: {fileID: 1894787501}
   m_Layer: 0
   m_Name: Boss2SpawnWaves 1
-  m_TagString: Boss2SpawnWaves
+  m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11686,7 +11695,7 @@ MonoBehaviour:
   downBound: 0
   rightBound: 0
   leftBound: 0
-  sideBoundOffset: 9
+  sideBoundOffset: 11
   upDownBoundOffset: 1
 --- !u!81 &1900132077
 AudioListener:
@@ -12267,6 +12276,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 561208325}
     - target: {fileID: 3075027512263022811, guid: 1f7b5d0fea75edc49a49218b5db2c372, type: 3}
+      propertyPath: _modifiers
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3075027512263022811, guid: 1f7b5d0fea75edc49a49218b5db2c372, type: 3}
       propertyPath: background
       value: 
       objectReference: {fileID: 2017600979}
@@ -12299,8 +12312,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 561208325}
     - target: {fileID: 3075027512263022811, guid: 1f7b5d0fea75edc49a49218b5db2c372, type: 3}
+      propertyPath: timerToRespawnEnemy
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3075027512263022811, guid: 1f7b5d0fea75edc49a49218b5db2c372, type: 3}
       propertyPath: maxGroundEnemysInIsland
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3075027512263022811, guid: 1f7b5d0fea75edc49a49218b5db2c372, type: 3}
+      propertyPath: delayForDropUpgradePoints
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3075027512263022813, guid: 1f7b5d0fea75edc49a49218b5db2c372, type: 3}
       propertyPath: m_Name
@@ -12347,3 +12368,7 @@ SceneRoots:
   - {fileID: 1519847740}
   - {fileID: 1304016645}
   - {fileID: 1100408153}
+  - {fileID: 584748269}
+  - {fileID: 1308601321}
+  - {fileID: 1509469933}
+  - {fileID: 1155205890}

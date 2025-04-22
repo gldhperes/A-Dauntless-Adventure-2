@@ -19,7 +19,7 @@
 .status-card {
     flex-grow: 0;
     height: auto;
-    width: 120px;
+    width: auto;
     background-color: rgba(0, 0, 0, 0.62);
     align-items: center;
     justify-content: space-between;

@@ -1,0 +1,30 @@
+.restart-button {
+    font-size: 60px;
+    -unity-font-style: bold;
+    background-color: rgb(255, 224, 61);
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+    border-bottom-left-radius: 40px;
+    transition-property: scale;
+    transition-duration: 100ms;
+    transition-timing-function: ease-in-out;
+    -unity-text-align: middle-center;
+    padding-top: 35px;
+    padding-right: 77px;
+    padding-bottom: 35px;
+    padding-left: 69px;
+}
+
+.restart-button:hover {
+    background-color: rgb(255, 243, 182);
+    scale: 1.05 1.05;
+}
+
+.restart-button:active {
+    scale: 0.95 0.9;
+}

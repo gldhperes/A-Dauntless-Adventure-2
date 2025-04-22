@@ -22,13 +22,31 @@ public class Player_Sprites : MonoBehaviour
     }
 
     public Sprite[] getBluePlanes;
-    public Sprite[] getGreenPlanes; 
+    public Sprite[] getGreenPlanes;
     public Sprite[] getRedPlanes;
     public Sprite[] getYellowPlanes;
 
+    public static Player_Sprites Instance;
+    [SerializeField] private int spriteIndex = 0;
+
+    void Awake()
+    {
+        // Se já existe uma instância diferente, destrói esse novo
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        // Define como instância única
+        Instance = this;
+
+        // Impede que seja destruído ao trocar de cena
+    }
+
     void Start()
     {
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 
     public void SetPlayerNextPlane()
@@ -41,18 +59,31 @@ public class Player_Sprites : MonoBehaviour
         Sprite nextPlayerPlaneSprite = myPlayerSprite;
 
 
-        for (int i = 0; i < myPlayerPlanes.Length - 1; i++)
+        for (int i = spriteIndex; i < myPlayerPlanes.Length - 1; i++)
         {
-            
-            if ((myPlayerPlanes[i] == myPlayerSprite) && (myPlayerPlanes[i + 1] != null))
+
+            if (myPlayerPlanes[i] == myPlayerSprite)
             {
-                nextPlayerPlaneSprite = myPlayerPlanes[i+1];
+                nextPlayerPlaneSprite = myPlayerPlanes[i + 1];
+
+                if (spriteIndex + 1 >= myPlayerPlanes.Length -1)
+                {
+                    FindAnyObjectByType<HangarScreen>().AddLockedItemToContainer("NextPlaneUpgradeButton");
+                }
+
+                spriteIndex = i;
                 break;
             }
+
+
+
         }
 
         return nextPlayerPlaneSprite;
     }
+
+
+
 
 
 }

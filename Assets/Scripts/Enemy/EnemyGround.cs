@@ -64,13 +64,26 @@ public class EnemyGround : Enemy_Behaviour
         }
     }
 
+    private bool checkDisablePosition()
+    {
+        Player_Behavior player = FindAnyObjectByType<Player_Behavior>();
+
+        // Se estiver abaixo do player, entao NAO pode atirar
+        if (transform.position.y <= player.transform.position.y)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     private void timerToShot()
     {
         if (timer > 0)
         {
             timer -= Time.deltaTime;
         }
-        else
+        else if (checkDisablePosition())
         {
             resetTimerToShot();
             shot();

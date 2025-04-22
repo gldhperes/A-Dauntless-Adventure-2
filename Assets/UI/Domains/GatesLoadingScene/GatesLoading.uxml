@@ -1,0 +1,14 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <engine:VisualElement name="root" style="width: 100%; height: 100%; align-items: center; justify-content: flex-start;">
+        <engine:VisualElement name="Gate" style="flex-grow: 0; width: 100%; height: 100%; background-color: rgb(41, 41, 41); justify-content: space-evenly;">
+            <engine:VisualElement style="flex-grow: 0; height: 3px; width: 100%; background-color: rgb(55, 55, 55);" />
+            <engine:VisualElement style="flex-grow: 0; height: 3px; width: 100%; background-color: rgb(55, 55, 55);" />
+            <engine:VisualElement style="flex-grow: 0; height: 3px; width: 100%; background-color: rgb(55, 55, 55);" />
+            <engine:VisualElement style="flex-grow: 0; height: 3px; width: 100%; background-color: rgb(55, 55, 55);" />
+            <engine:VisualElement style="flex-grow: 0; height: 3px; width: 100%; background-color: rgb(55, 55, 55);" />
+            <engine:VisualElement style="flex-grow: 0; height: 3px; width: 100%; background-color: rgb(55, 55, 55);" />
+            <engine:VisualElement style="flex-grow: 0; height: 3px; width: 100%; background-color: rgb(55, 55, 55);" />
+            <engine:VisualElement style="flex-grow: 0; height: 3px; width: 100%; background-color: rgb(55, 55, 55);" />
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>

@@ -57,7 +57,7 @@ public class Drop_Behaviour : MonoBehaviour
                 col.gameObject.GetComponent<Player_Behavior>().gainUpgradePoints();
 
                 if(followPlayer){
-                    col.gameObject.GetComponent<Player_Behavior>().upgradeReceived();
+                    col.gameObject.GetComponent<Player_Behavior>().UpgradeReceived();
                 }
             }
 

@@ -6,9 +6,14 @@ using Random = UnityEngine.Random;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
+using UnityEngine.Android;
 
 public class Game_Events : MonoBehaviour
 {
+
+    public Action OnCallHangar;
+    public static Action OnRestartLevel;
+
     [Header("Game Settings")] public SO_Data data;
     public Player_Sprites player_Sprites;
     public int gameLevel;
@@ -88,10 +93,9 @@ public class Game_Events : MonoBehaviour
     [SerializeField] private Vector2 bossDeadPos;
     [SerializeField] private int quantUpgradesToDrop;
     [SerializeField] private int upgradeDropsCount = 0;
-    [SerializeField] private float timeForDrop;
-    [SerializeField] private float auxTimeForDrop;
+    [SerializeField] private float delayForDropUpgradePoints; // .5f
     [SerializeField] private bool bossDropUpgradePoints;
-    [SerializeField] private List<GameObject> bossDropGOs;
+    [SerializeField] private GameObject bossDropGO;
 
     [Header("Enemy Settings")] public GameObject enemyPlanePrefab;
     public GameObject enemyGroundPrefab;
@@ -128,8 +132,27 @@ public class Game_Events : MonoBehaviour
     [Header("Camera Settings")] public Camera mainCam;
     [SerializeField] private Camera_Behaviour camera_Behaviour;
 
+    public static Game_Events Instance;
+
+    void Awake()
+    {
+        // Se já existe uma instância diferente, destrói esse novo
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        // Define como instância única
+        Instance = this;
+    }
+
     void Start()
     {
+        // ACTIONS
+        OnCallHangar += ChangeSceneToHangar;
+        // OnRestartLevel += 
+
         data = GameObject.Find("SO_DATA").GetComponent<SO_Data>();
         player_Sprites = GameObject.Find("Player Sprites").GetComponent<Player_Sprites>();
         gameLevel = data.gameLevel;
@@ -150,7 +173,8 @@ public class Game_Events : MonoBehaviour
         // UI
         // INITIATE UI ELEMENTS
         faseScreen = uiDocument.gameObject.GetComponent<FaseScreen>();
-        faseScreen.InitScreen(data, player_Behavior);
+        Sprite bossSprite = bossGO[gameLevel - 1].GetComponent<Boss_Behaviour>().GetBossSprite();
+        faseScreen.InitScreen(data, player_Behavior, bossSprite);
         PlayerTakingOffAnimation();
 
 
@@ -159,7 +183,7 @@ public class Game_Events : MonoBehaviour
         OnPlayerUpgradeChanged += (upgrade) =>
         {
             faseScreen.UpdateUpgradePoints(upgrade);
-            data.upgradePoints += 1;
+            // data.upgradePoints += 1;
         };
         OnEnemyDefeated += EnemyDefeated;
         OnUpdateProgressBar += (progress) => faseScreen.UpdateProgressBar(progress);
@@ -172,15 +196,24 @@ public class Game_Events : MonoBehaviour
         // Background
         background = GameObject.FindWithTag("Background");
 
-        level_Islands.resetSpawnIslandTimer();
-        level_Islands.setGameLevelIsland();
-        level_Islands.setIslandTime();
+        StartCoroutine(TimeToStart());
 
-        level_Islands.setSpawnIslandBool(true);
-        setCurrentPlaneAndGroundEnemys();
+        IEnumerator TimeToStart()
+        {
 
+            level_Islands.resetSpawnIslandTimer();
+            level_Islands.setGameLevelIsland();
+            level_Islands.setIslandTime();
 
+            yield return new WaitForSeconds(2f);
+
+            level_Islands.setSpawnIslandBool(true);
+            setCurrentPlaneAndGroundEnemys();
+
+        }
     }
+
+
 
     private void setCurrentPlaneAndGroundEnemys()
     {
@@ -223,9 +256,9 @@ public class Game_Events : MonoBehaviour
     private void PlayerTakingOffAnimation()
     {
         gameStarted = false;
-        StartCoroutine (faseScreen.Animate_TakingOff(animTakinoffTimer, gameLevel));
+        StartCoroutine(faseScreen.Animate_TakingOff(animTakinoffTimer, gameLevel));
 
-        StartCoroutine (player_Behavior.Animate_TakingOff(animTakinoffTimer));
+        StartCoroutine(player_Behavior.Animate_TakingOff(animTakinoffTimer));
 
         StartCoroutine(Continue_Before_Timer_Callback());
 
@@ -240,11 +273,20 @@ public class Game_Events : MonoBehaviour
         }
     }
 
+
+    private void StageCompletedAnimation()
+    {
+        gameStarted = false;
+
+        // Anima a tela com o StageCompleted
+        StartCoroutine(faseScreen.Animate_StageCompleted(animTakinoffTimer));
+    }
+
+
     void Update()
     {
         moveBackground();
         TimerToRespawnEnemys();
-        animateDropingUpgradePoints();
     }
 
 
@@ -262,16 +304,14 @@ public class Game_Events : MonoBehaviour
     #region BOSS_CONTROLLER
 
     // Mission Complete ----------------------------------
-    public void animMissionComplete(Vector2 bossPos, int upgradesToDrop)
+    public void AnimMissionComplete(Vector2 bossPos, int upgradesToDrop)
     {
         // Seta variaveis para morte do boss
         bossDeadPos = bossPos;
         quantUpgradesToDrop = upgradesToDrop;
 
-        timeForDrop = currentBossBehaviour.getTimeForDrop();
-        auxTimeForDrop = timeForDrop;
+        StageCompletedAnimation();
 
-        // missionComplete.SetActive(true);
         StartCoroutine(MissionComplete());
     }
 
@@ -280,76 +320,66 @@ public class Game_Events : MonoBehaviour
         audioSettings.setStageClear();
 
         yield return new WaitForSeconds(animTimeMissionComplete);
-        // missionComplete.SetActive(false);
+
         bossDropUpgradePoints = true;
 
 
         // Chama função de drop
+
         // bossAnimator.Play("bossDropUpgradePoints");
         // bossAnimator.SetBool("dropUpgrade", true);
+
+        StartCoroutine(AnimateDropingUpgradePoints());
+
     }
 
-    private void animateDropingUpgradePoints()
+
+
+    private IEnumerator AnimateDropingUpgradePoints()
     {
-        if (bossDropUpgradePoints)
+
+        player_Behavior.SetReceiveUpgradeList(quantUpgradesToDrop);
+
+        // Segura a lista de Drops para animação posteriormente
+        List<GameObject> bossDropGOs = new();
+        for (int i = 0; i < quantUpgradesToDrop; i++)
         {
-            timeForDrop -= Time.deltaTime;
-
-            if (timeForDrop <= 0)
-            {
-                timeForDrop = auxTimeForDrop;
-                upgradeDropsCount += 1;
-
-                // Esse IF é quando atinge a quantidade maxima de drops, entao ele sai do laço
-                if (upgradeDropsCount >= quantUpgradesToDrop)
-                {
-                    upgradeDropsCount = 0;
-                    bossDropUpgradePoints = false;
-
-                    player_Behavior.receiveUpgradeList(bossDropGOs, quantUpgradesToDrop);
-
-                    foreach (GameObject d in bossDropGOs)
-                    {
-                        d.GetComponent<Drop_Behaviour>().catchable = true;
-                        d.GetComponent<Drop_Behaviour>()
-                            .setSpeed(getDropGO().GetComponent<Drop_Behaviour>().getSpeed());
-                        d.GetComponent<Drop_Behaviour>().setFollowPlayer(player);
-                    }
-
-                    return;
-                }
-
-                dropUpgrade();
-            }
+            bossDropGOs.Add(DropUpgrade());
+            yield return new WaitForSeconds(delayForDropUpgradePoints);
         }
+
+        // Faz a animação dos drops seguirem o player
+        foreach (GameObject drop in bossDropGOs)
+        {
+            // Seta variaveis para o drop do Upgradepoint
+            Drop_Behaviour bossDropBehaviour = drop.GetComponent<Drop_Behaviour>();
+            bossDropBehaviour.setSpeed(5);
+            bossDropBehaviour.setFollowPlayer(player);
+        }
+
+
     }
 
-    private void dropUpgrade()
+    private GameObject DropUpgrade()
     {
-        float randomX = Random.Range(-1f * currentBossBehaviour.getDropAreaOffset(),
-            currentBossBehaviour.getDropAreaOffset());
-        float randomY = Random.Range(-1f * currentBossBehaviour.getDropAreaOffset(),
-            currentBossBehaviour.getDropAreaOffset());
-        Vector2 pos = new Vector2(currentBossGO.transform.position.x + randomX,
-            currentBossGO.transform.position.y + randomY);
+        float randomX = Random.Range(-1f * currentBossBehaviour.getDropAreaOffset(), currentBossBehaviour.getDropAreaOffset());
+        float randomY = Random.Range(-1f * currentBossBehaviour.getDropAreaOffset(), currentBossBehaviour.getDropAreaOffset());
 
-        GameObject bossDropGO = Instantiate(getDropGO(), pos, Quaternion.identity);
+        Vector2 pos = new Vector2(currentBossGO.transform.position.x + randomX, currentBossGO.transform.position.y + randomY);
 
-        // Seta variaveis para o drop do Upgradepoint
+        GameObject bossDropGO = Instantiate(this.dropGO, pos, Quaternion.identity);
         Drop_Behaviour bossDropBehaviour = bossDropGO.GetComponent<Drop_Behaviour>();
+        bossDropBehaviour.setSprite(getUpgradeSprite());
         bossDropBehaviour.setSpeed(0);
         bossDropBehaviour.setTagName("Upgrade");
-        bossDropBehaviour.setSprite(getUpgradeSprite());
-        bossDropBehaviour.catchable = false;
-
-        bossDropGOs.Add(bossDropGO);
+        bossDropBehaviour.catchable = true;
+        return bossDropGO;
     }
 
-    public void bossDefeated()
+    private void ChangeSceneToHangar()
     {
         GameLootLoading gameLootLoading = FindAnyObjectByType<GameLootLoading>();
-        // Seta o upgrade points que o player ganhou
-        // data.upgradePoints = int.Parse(playerCanvas.GetComponent<Player_Canvas>().upgradeText.text);
+
 
         if (gameLevel >= 4)
         {
@@ -360,12 +390,12 @@ public class Game_Events : MonoBehaviour
         // Aumentar Game Level + 1
         data.gameLevel += 1;
 
-        // Aumenta o Hangar arrival
-        data.hangarArrivals += 1;
 
         // Voltar para hangar
+        Debug.Log("Chamando Hangar");
         gameLootLoading.LoadScene(Scenes_To_Call.Hangar);
     }
+
 
 
     // Boss Arriving -----------------------------------------------
@@ -388,6 +418,8 @@ public class Game_Events : MonoBehaviour
             level_Islands.destroyAllIslands();
             return;
         }
+
+
     }
 
 
@@ -462,7 +494,7 @@ public class Game_Events : MonoBehaviour
         // float respawnSize = respawPlaneEnemys.transform.localScale.x / 2;
         int waypointChild = Random.Range(0, enemyMoveSetWaypoints.transform.childCount);
 
-        int enemiesSpawnNumber = Random.Range(2, 4);
+        int enemiesSpawnNumber = Random.Range(2 + data.gameLevel, 2 * data.gameLevel);
 
         for (int i = 0; i < enemiesSpawnNumber; i++)
         {
@@ -476,13 +508,16 @@ public class Game_Events : MonoBehaviour
             GameObject randomMoveSet = enemyMoveSetWaypoints.transform.GetChild(waypointChild).gameObject;
             enemyPlane.SetWaypoints(randomMoveSet);
             enemysInScene += 1;
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(.5f);
         }
     }
 
     private void EnemyDefeated()
     {
         enemysDefeated += 1;
+
+        progressBar = (float)enemysDefeated / (float)enemysToDefeat;
+        OnUpdateProgressBar?.Invoke(progressBar);
 
         if ((enemysDefeated >= enemysToDefeat) && !bossInScene)
         {
@@ -494,11 +529,7 @@ public class Game_Events : MonoBehaviour
 
             Animate_Boss_Arriving();
         }
-        else
-        {
-            progressBar = (float)enemysDefeated / (float)enemysToDefeat;
-            OnUpdateProgressBar?.Invoke(progressBar);
-        }
+
     }
     #endregion ENEMIES_CONTROLLER
 
@@ -521,6 +552,7 @@ public class Game_Events : MonoBehaviour
         yield return new WaitForSeconds(timeToCallGameOver);
         audioSettings.setGameoverMusic();
         // player_Behavior.player_Canvas.gameOver();
+        GameLootLoading.Instance.LoadGameOverScreen();
     }
 
     #endregion PLAYER_CONTROLLER
@@ -633,7 +665,7 @@ public class Game_Events : MonoBehaviour
 
     // ========== Drops ==========
     #region DROPS
-    public GameObject getDropGO()
+    public GameObject GetDropGO()
     {
         return this.dropGO;
     }
@@ -654,4 +686,5 @@ public class Game_Events : MonoBehaviour
     }
 
     #endregion DROPS
+
 }

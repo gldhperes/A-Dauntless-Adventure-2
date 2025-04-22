@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4849509008124455607}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -10.085658, y: 4.5697503, z: -0.06888169}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4849509008124455593
 SpriteRenderer:
@@ -50,6 +50,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -97,9 +100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e07ccb7629f5bd340ac5709d303c49b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bombSpeed: 8
-  damage: 1
-  explosionLevel: 0
+  bombSpeed: 12
+  damage: 3
+  explosionArea: 0
   angle: 0
   offset: 90
   bombColliderGO: {fileID: 0}

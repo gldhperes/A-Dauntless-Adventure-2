@@ -7,6 +7,8 @@ using UnityEngine.UIElements.Experimental;
 
 public class FaseScreen : MonoBehaviour
 {
+    public static Action<float> OnBombProgressFill;
+
     [SerializeField] private VisualElement screen;
     [SerializeField] private bool isPaused;
     VisualElement progressBar;
@@ -14,20 +16,23 @@ public class FaseScreen : MonoBehaviour
     Label upgradePoints;
 
     private VisualElement bombContainer;
-    Label bombPoints;
+    Label bombQuantity;
+    private VisualElement bombProgress;
 
     private VisualElement TakingOffContainer;
 
     private VisualElement WarningContainer;
+    private VisualElement StageClearContainer;
     private VisualElement PauseMenu;
 
-    public void InitScreen(SO_Data player_data, Player_Behavior player_Behavior)
+    public void InitScreen(SO_Data player_data, Player_Behavior player_Behavior, Sprite bossSprite)
     {
         UIDocument uiDocument = GetComponent<UIDocument>();
         this.screen = uiDocument.rootVisualElement;
 
         this.TakingOffContainer = screen.Q<VisualElement>("TakingOffContainer");
         this.WarningContainer = screen.Q<VisualElement>("WarningContainer");
+        this.StageClearContainer = screen.Q<VisualElement>("StageClearContainer");
 
         this.progressBar = screen.Query<VisualElement>("ProgressBar");
 
@@ -43,13 +48,37 @@ public class FaseScreen : MonoBehaviour
 
         if (player_data.playerBombEnable)
         {
-            bombPoints.style.display = DisplayStyle.Flex;
-            this.bombPoints = screen.Q<Label>("BombPoints");
+            bombContainer.style.display = DisplayStyle.Flex;
+            this.bombQuantity = screen.Q<Label>("BombPoints");
+            this.bombQuantity.text = player_data.playerBombArea.ToString();
+
+
+            this.bombProgress = screen.Q<VisualElement>("BombProgress");
+            this.bombProgress.style.height = new StyleLength(new Length(0, LengthUnit.Percent));
+
+            OnBombProgressFill += UpdateBombStatus;
         }
         else
         {
             bombContainer.style.display = DisplayStyle.None;
         }
+
+        if (bossSprite != null)
+        {
+            var BossImage = screen.Q<VisualElement>("BossImage");
+            BossImage.style.backgroundImage = new StyleBackground(bossSprite);
+        }
+
+    }
+
+    public void UpdateBombStatus(float fillAmount)
+    {
+        if (fillAmount >= 1f)
+        {
+            fillAmount = 1f;
+        }
+
+        this.bombProgress.style.height = new StyleLength(new Length(fillAmount * 100f, LengthUnit.Percent));
     }
 
 
@@ -140,6 +169,26 @@ public class FaseScreen : MonoBehaviour
             })
             .StartingIn(50);
 
+
+    }
+
+    public IEnumerator Animate_StageCompleted(float animTime)
+    {
+
+        // Activate StageCompletedContainer
+        this.StageClearContainer.schedule.Execute(() =>
+            {
+                this.StageClearContainer.style.display = DisplayStyle.Flex;
+            })
+            .StartingIn(50);
+        yield return new WaitForSeconds(animTime);
+
+        // Desactive StageCompletedContainer
+        this.StageClearContainer.schedule.Execute(() =>
+            {
+                this.StageClearContainer.style.display = DisplayStyle.None;
+            })
+            .StartingIn(50);
 
     }
 

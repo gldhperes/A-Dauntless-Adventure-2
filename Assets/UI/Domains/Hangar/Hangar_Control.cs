@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 public class Hangar_Control : MonoBehaviour
 {
     public Action<UpgradeType> OnUpgradePurchased;
-    
+
     [Header("SO_DATA")] public SO_Data data;
     public UpgradeCosts upgradeCosts;
     public Player_Sprites player_Sprites;
@@ -30,57 +30,6 @@ public class Hangar_Control : MonoBehaviour
         };
     }
 
-    public void UpgradePlane()
-    {
-        // APLICAR MUDANÇAS EM HANGARSCREEN
-
-
-        // Se nao tiver vendido nada entao vende
-        // Senao, é o level maximo
-        if (!upgradeCosts.fuselagemSold)
-        {
-            player_Sprites.GetNextPlayerPlane();
-
-            // Chamar isso em SO_Data
-            // data.playerLevel += 1;
-            // data.playerLife += 1;
-            // data.playerDamage += 1;
-
-            // Atualizar texto na status bar para o nivel atual
-        }
-       
-    }
-
-    public void UpgradeBomb()
-    {
-        // APLICAR MUDANÇAS EM HANGARSCREEN
-
-
-        // Checa se é a primeira vez que esta liberando a bomba
-        if (!data.playerBombEnable)
-        {
-            data.playerBombEnable = true;
-
-            // Liberar cadeado em HangarScreen
-        }
-
-        data.playerBombArea += .75f;
-    }
-
-    public void UpgradeSpeed()
-    {
-        // APLICAR MUDANÇAS EM HANGARSCREEN
-
-        data.playerSpeed += 2;
-    }
-
-    public void UpgradeFirerate()
-    {
-        // APLICAR MUDANÇAS EM HANGARSCREEN
-
-        data.playerFireRate += .1f;
-    }
-
     public void PlayNextStage()
     {
         GameLootLoading gameLootLoading = FindAnyObjectByType<GameLootLoading>();
@@ -95,16 +44,20 @@ public class Hangar_Control : MonoBehaviour
 
         if (success)
         {
+            // Atualiza a Sprite do Proximo Plane na classe Player_Sprites
+            if (upgradeType == UpgradeType.NextPlane)
+            {
+                player_Sprites.SetPlayerNextPlane();
+            }
+
             // Atualiza o Status do jogador
             HangarScreen hs = GetComponent<HangarScreen>();
-            hs.UpdatePlayerStatusBar(upgradeType); 
-            
+            hs.UpdatePlayerStatusBar(upgradeType);
+
             // Atualiaza custo do próximo upgrade 
-            upgradeCostsDic[upgradeType] = upgradeCosts.GetNextUpgrade(upgradeType);
-            
-            // Atualiza a Sprite do Proximo Plane
-            player_Sprites.SetPlayerNextPlane();
-            
+            // upgradeCostsDic[upgradeType] = upgradeCosts.GetNextUpgrade(upgradeType);
+
+
             OnUpgradePurchased?.Invoke(upgradeType);
         }
     }

@@ -4,7 +4,7 @@
             {
                 "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
                 "key": "buildOutputDirList",
-                "value": "{\"m_Value\":\"C:/Users/gldhp/Unity Projects/A-Dauntless-Adventure/Build;C:/Users/gldhp/Downloads;C:/Users/GUILHERME/Documents/A Dauntless Adventure;;;;;;;\"}"
+                "value": "{\"m_Value\":\"C:/Users/gldhp/Unity Projects/A-Dauntless-Adventure-2/Build;C:/Users/gldhp/Unity Projects/A-Dauntless-Adventure/Build;C:/Users/gldhp/Downloads;C:/Users/GUILHERME/Documents/A Dauntless Adventure;;;;;;\"}"
             },
             {
                 "type": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",

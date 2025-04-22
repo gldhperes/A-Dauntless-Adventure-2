@@ -9,31 +9,72 @@ using UnityEngine.SceneManagement;
 
 public class GameLootLoading : MonoBehaviour
 {
-   
-    private void Awake()
+    public static GameLootLoading Instance;
+    void Awake()
     {
+        // Se já existe uma instância diferente, destrói esse novo
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        // Define como instância única
+        Instance = this;
+    }
+
+    private void Start()
+    {
+        // Impede que seja destruído ao trocar de cena
         DontDestroyOnLoad(this.gameObject);
     }
-    
-    public void LoadScene(string scene_name)
+
+    public void LoadScene(string sceneName)
     {
-        StartCoroutine(LoadSceneAsync(scene_name));
+        SceneManager.LoadSceneAsync(Scenes_To_Call.GatesLoadingScene, LoadSceneMode.Additive);
+        StartCoroutine(LoadSceneAsync(sceneName));
+
     }
 
     private IEnumerator LoadSceneAsync(string sceneName)
     {
-     
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
-        
 
-        // Nao ativa a cena quando estiver pronta, pois iremos fazer requisições
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        asyncLoad.allowSceneActivation = false;
+
+        yield return new WaitForSeconds(3f);
+
+        while (asyncLoad.progress < 0.9f)
+        {
+            Debug.Log(asyncLoad.progress);
+            yield return null;
+        }
+
         asyncLoad.allowSceneActivation = true;
-        
-        // Destroy(this.gameObject);
 
-        yield return null;
+        // Animação de abrir os portões
+        var GateLoadingScreen = FindAnyObjectByType<GateLoadingScreen>();
+        if (GateLoadingScreen != null)
+        {
+            GateLoadingScreen.OpenGate();
+        }
+        else
+        {
+            Debug.LogError("GateLoadingScreen not found in the scene.");
+        }
     }
-    
+
+    public void LoadGameOverScreen()
+    {
+        SceneManager.LoadSceneAsync(Scenes_To_Call.Gameover);
+    }
+
+    public void RestartLevel()
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(Scenes_To_Call.Fase);
+        asyncLoad.allowSceneActivation = true;
+    }
+
 }
 
 public static class Scenes_To_Call
@@ -41,9 +82,7 @@ public static class Scenes_To_Call
     public const string Creditos = "Creditos";
     public const string Fase = "Fase";
     public const string Hangar = "Hangar";
+    public const string Gameover = "GameOver";
+    public const string GatesLoadingScene = "GatesLoadingScene";
 
-    public const string LoadingScene = "LoadingScene";
-
-    // public const string Gameover = "GameOver";
-    public const string MainMenu = "MainMenu";
 }
